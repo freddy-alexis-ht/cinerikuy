@@ -1,11 +1,8 @@
 package com.cinerikuy.customer.exception;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.net.UnknownHostException;
 
 /**
  * Standard HTTP communication has five levels of response codes
@@ -16,20 +13,13 @@ import java.net.UnknownHostException;
  * 500-level (Server error) — Server failed to fulfill a valid request due to an error with server
  */
 
-@RestControllerAdvice // This class assists a controller class and can have a body in response
+@RestControllerAdvice
 public class ApiExceptionHandler {
 
-//    // Generic method as example
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<StandardizedApiExceptionResponse> handleGenericException(Exception ex) {
-//        StandardizedApiExceptionResponse response = new StandardizedApiExceptionResponse("Generic-title", "Generic-code", ex.getMessage());
-//        return new ResponseEntity(response, HttpStatus.PARTIAL_CONTENT);
-//    }
-
-    // La clase BusinessRuleException ya trae el 'code', se toma de ahí
+    // For generic method use: @ExceptionHandler(Exception.class)
     @ExceptionHandler(BusinessRuleException.class)
-    public ResponseEntity<StandardizedApiExceptionResponse> handleBusinessRuleException(BusinessRuleException ex) {
-        StandardizedApiExceptionResponse response = new StandardizedApiExceptionResponse("Error de validación",ex.getCode(),ex.getMessage());
+    public ResponseEntity<ApiExceptionResponse> handleBusinessRuleException(BusinessRuleException ex) {
+        ApiExceptionResponse response = new ApiExceptionResponse("DB VALIDATION", ex.getCode(), ex.getMessage(), ex.getHttpStatus().toString());
         return new ResponseEntity(response, ex.getHttpStatus());
     }
 }

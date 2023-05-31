@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -36,7 +35,7 @@ public class CustomerService {
         return false;
     }
 
-    private Customer findByUsername(String username) {
+    public Customer findByUsername(String username) {
         Optional<Customer> findByUsername = customerRepository.findByUsername(username);
         if(findByUsername.isPresent())
             return findByUsername.get();
@@ -50,4 +49,7 @@ public class CustomerService {
         return null;
     }
 
+    public boolean comparePasswords(String password, String dbPassword) {
+        return this.passwordEncoder.matches(password, dbPassword);
+    }
 }
