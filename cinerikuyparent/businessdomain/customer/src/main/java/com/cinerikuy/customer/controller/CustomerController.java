@@ -23,8 +23,8 @@ public class CustomerController {
     @Autowired
     private CustomerResponseMapper cusResMapper;
 
-    @PostMapping
-    public ResponseEntity<CustomerResponse> signIn(@RequestBody CustomerRequest request) throws BusinessRuleException {
+    @PostMapping("/signin")
+    public ResponseEntity<CustomerResponse> signIn(@RequestBody CustomerSignInRequest request) throws BusinessRuleException {
         // Validates username and dni are not repeated
         // Assumes other fields were validated in frontend
         if(!customerService.isNewUsername(request.getUsername()))
@@ -32,12 +32,14 @@ public class CustomerController {
         if(!customerService.isNewDni(request.getDni()))
             throw new BusinessRuleException("002", "El DNI ya existe.", HttpStatus.PRECONDITION_FAILED);
 
-        // Maps CustomerRequest to Customer
-        Customer customer = cusReqMapper.CustomerRequestToCustomer(request);
+        // Maps CustomerSignInRequest to Customer
+        Customer customer = cusReqMapper.CustomerSignInRequestToCustomer(request);
         // Encodes password and inserts Customer in DB
-        customerService.post(customer);
+        String username = customerService.post(customer);
         // Maps Customer to CustomerResponse
-        CustomerResponse response = cusResMapper.CustomerToCustomerResponse(customer);
+        CustomerResponse response = null;
+        if(username.equals(customer.getUsername()))
+            response = cusResMapper.CustomerToCustomerResponse(customer);
         // Returns response
         return ResponseEntity.ok(response);
     }

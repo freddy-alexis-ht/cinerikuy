@@ -3,7 +3,7 @@ package com.cinerikuy.customer.dto;
 import lombok.Data;
 
 @Data
-public class CustomerRequest {
+public class CustomerSignInRequest {
     private String username;
     private String password;
     private String firstName;

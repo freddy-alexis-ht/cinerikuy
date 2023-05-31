@@ -16,7 +16,6 @@ public class CustomerService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // TODO .. no hace falta devolver el String, pq al mappear el username lo obtiene del anterior
     public String post(Customer customer) {
         String encodedPassword = this.passwordEncoder.encode(customer.getPassword());
         customer.setPassword(encodedPassword);
