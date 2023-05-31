@@ -1,9 +1,6 @@
 package com.cinerikuy.customer.controller;
 
-import com.cinerikuy.customer.dto.CustomerRequest;
-import com.cinerikuy.customer.dto.CustomerRequestMapper;
-import com.cinerikuy.customer.dto.CustomerResponse;
-import com.cinerikuy.customer.dto.CustomerResponseMapper;
+import com.cinerikuy.customer.dto.*;
 import com.cinerikuy.customer.entity.Customer;
 import com.cinerikuy.customer.exception.BusinessRuleException;
 import com.cinerikuy.customer.repository.CustomerRepository;
@@ -42,6 +39,22 @@ public class CustomerController {
         // Maps Customer to CustomerResponse
         CustomerResponse response = cusResMapper.CustomerToCustomerResponse(customer);
         // Returns response
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<CustomerResponse> login(@RequestBody CustomerLoginRequest request) throws BusinessRuleException {
+        // Front validates values are not empty and that they are valid
+        // Validates username exists in DB
+        Customer customer = customerService.findByUsername(request.getUsername());
+        if(customer == null)
+            throw new BusinessRuleException("003", "Credenciales incorrectas.", HttpStatus.PRECONDITION_FAILED);
+        // Validates passwords are the same
+        boolean areEqual = customerService.comparePasswords(request.getPassword(), customer.getPassword());
+        if(!areEqual)
+            throw new BusinessRuleException("004", "Credenciales incorrectas.", HttpStatus.PRECONDITION_FAILED);
+        CustomerResponse response = new CustomerResponse();
+        response.setUsername(request.getUsername());
         return ResponseEntity.ok(response);
     }
 

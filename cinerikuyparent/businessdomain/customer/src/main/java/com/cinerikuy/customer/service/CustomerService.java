@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -17,6 +16,7 @@ public class CustomerService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // TODO .. no hace falta devolver el String, pq al mappear el username lo obtiene del anterior
     public String post(Customer customer) {
         String encodedPassword = this.passwordEncoder.encode(customer.getPassword());
         customer.setPassword(encodedPassword);
@@ -36,7 +36,7 @@ public class CustomerService {
         return false;
     }
 
-    private Customer findByUsername(String username) {
+    public Customer findByUsername(String username) {
         Optional<Customer> findByUsername = customerRepository.findByUsername(username);
         if(findByUsername.isPresent())
             return findByUsername.get();
@@ -50,4 +50,7 @@ public class CustomerService {
         return null;
     }
 
+    public boolean comparePasswords(String password, String dbPassword) {
+        return this.passwordEncoder.matches(password, dbPassword);
+    }
 }
