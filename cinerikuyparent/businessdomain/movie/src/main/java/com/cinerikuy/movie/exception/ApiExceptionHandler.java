@@ -23,4 +23,10 @@ public class ApiExceptionHandler {
         return new ResponseEntity(response, ex.getHttpStatus());
     }
 
+    @ExceptionHandler(MovieDetailsException.class)
+    public ResponseEntity<ApiExceptionResponse> handleMovieDetailsException(MovieDetailsException ex) {
+        ApiExceptionResponse response = new ApiExceptionResponse("MOVIE DETAILS VALIDATION", ex.getCode(), ex.getMessage(), ex.getHttpStatus().toString());
+        return new ResponseEntity(response, ex.getHttpStatus());
+    }
+
 }

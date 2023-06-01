@@ -1,9 +1,11 @@
 package com.cinerikuy.movie.controller;
 
+import com.cinerikuy.movie.dto.MovieDetailsResponse;
 import com.cinerikuy.movie.dto.MovieMainBillboardResponse;
 import com.cinerikuy.movie.dto.MovieResponseMapper;
 import com.cinerikuy.movie.entity.Movie;
 import com.cinerikuy.movie.exception.MainBillboardException;
+import com.cinerikuy.movie.exception.MovieDetailsException;
 import com.cinerikuy.movie.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,15 +31,28 @@ public class MovieController {
     @Operation(summary = "Get the main billboard (no matter the cinema).")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Main billboard returned", content = @Content),
-            @ApiResponse(responseCode = "204", description = "There are no movies in Billboard", content = @Content)})
+            @ApiResponse(responseCode = "412", description = "There are no movies in Billboard", content = @Content)})
     @GetMapping("/billboard")
     public ResponseEntity<List<MovieMainBillboardResponse>> getAllBillboard() throws MainBillboardException {
         List<Movie> list = movieService.getAllBillboard();
         if(list == null || list.isEmpty())
-            throw new MainBillboardException("M001", "No hay películas de estreno.", HttpStatus.NO_CONTENT);
+            throw new MainBillboardException("M001", "No hay películas de estreno.", HttpStatus.PRECONDITION_FAILED);
         List<MovieMainBillboardResponse> response = movResMapper.MovieListToMovieMainBillboardResponseList(list);
         return ResponseEntity.ok(response);
     }
 
+    /** MOVIE DETAILS */
+    @Operation(summary = "Get movie details by movie-code.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Movie details returned", content = @Content),
+            @ApiResponse(responseCode = "412", description = "Movie doesn't exist", content = @Content)})
+    @GetMapping("/{movieCode}/details")
+    public ResponseEntity<MovieDetailsResponse> getMovieDetails(@PathVariable String movieCode) throws MovieDetailsException {
+        Movie movie = movieService.getMovieDetails(movieCode);
+        if(movie == null)
+            throw new MovieDetailsException("M002", "La película indicada no existe.", HttpStatus.PRECONDITION_FAILED);
+        MovieDetailsResponse response = movResMapper.MovieToMovieDetailsResponse(movie);
+        return ResponseEntity.ok(response);
+    }
 
 }

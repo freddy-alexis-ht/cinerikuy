@@ -20,6 +20,8 @@ INSERT INTO vote (vote) VALUES ('Ganador');
 INSERT INTO movie (movie_code, name, duration, image_url, trailer_url, synopsis, peruvian, director, actors, schedules, enabled, genre_id, language_id, situation_id, vote_id)
 VALUES ('M001', 'Domingo 007', '120 min', 'http://abc', 'http://def', 'Resumen de la película', 'f', 'Director 1', 'Actor 1, Actor 2', '2:30, 5:30', 't', 1, 2, 2, 2);
 INSERT INTO movie (movie_code, name, duration, image_url, trailer_url, synopsis, peruvian, director, actors, schedules, enabled, genre_id, language_id, situation_id, vote_id)
-VALUES ('M002', 'El viaje de Lucas', '120 min', 'http://abc', 'http://def', 'Resumen de la película', 'f', 'Director 1', 'Actor 1, Actor 2', '2:30, 5:30', 't', 2, 1, 3, 2);
+VALUES ('M002', 'El viaje de Lucas', '130 min', 'http://abc', 'http://def', 'Resumen de la película', 't', 'Director 1', 'Actor 1, Actor 2', '2:30, 5:30', 't', 2, 1, 3, 2);
+INSERT INTO movie (movie_code, name, duration, image_url, trailer_url, synopsis, peruvian, director, actors, schedules, enabled, genre_id, language_id, situation_id, vote_id)
+VALUES ('M003', 'Domingo en Marte', '140 min', 'http://abc', 'http://def', 'Resumen de la película', 'f', 'Director 1', 'Actor 1, Actor 2', '2:30, 5:30', 'f', 2, 1, 3, 2);
 
 
