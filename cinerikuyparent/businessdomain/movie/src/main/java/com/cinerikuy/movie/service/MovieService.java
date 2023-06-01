@@ -15,10 +15,19 @@ public class MovieService {
     @Autowired
     private MovieRepository movieRepository;
 
-    public List<Movie> getAllBillboard() {
+    public List<Movie> getMainBillboard() {
         return movieRepository.findAll().stream()
                 .filter(m -> m.isEnabled())
                 .filter(m -> m.getSituation().getSituation().equals("Estreno"))
+                .collect(Collectors.toList());
+    }
+
+    public List<Movie> getSpecificBillboard(String cinemaCode) {
+        List<Movie> list = this.getMainBillboard();
+        if(list == null || list.isEmpty())
+            return null;
+        return list.stream()
+                .filter(m -> m.getCinemaCodes().contains(cinemaCode))
                 .collect(Collectors.toList());
     }
 

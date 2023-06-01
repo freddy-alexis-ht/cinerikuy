@@ -30,6 +30,7 @@ CREATE TABLE movie (
    director VARCHAR NOT NULL,
    actors VARCHAR NOT NULL,
    schedules VARCHAR,
+   cinema_codes VARCHAR NOT NULL,
    enabled BOOLEAN NOT NULL,
    genre_id INT,
    language_id INT,

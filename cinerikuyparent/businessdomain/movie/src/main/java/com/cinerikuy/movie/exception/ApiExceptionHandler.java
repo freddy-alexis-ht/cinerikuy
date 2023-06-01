@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ApiExceptionHandler {
 
     // For generic method use: @ExceptionHandler(Exception.class)
-    @ExceptionHandler(MainBillboardException.class)
-    public ResponseEntity<ApiExceptionResponse> handleMainBillboardException(MainBillboardException ex) {
-        ApiExceptionResponse response = new ApiExceptionResponse("MAIN BILLBOARD VALIDATION", ex.getCode(), ex.getMessage(), ex.getHttpStatus().toString());
+    @ExceptionHandler(BillboardException.class)
+    public ResponseEntity<ApiExceptionResponse> handleBillboardException(BillboardException ex) {
+        ApiExceptionResponse response = new ApiExceptionResponse("BILLBOARD VALIDATION", ex.getCode(), ex.getMessage(), ex.getHttpStatus().toString());
         return new ResponseEntity(response, ex.getHttpStatus());
     }
 

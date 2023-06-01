@@ -38,6 +38,6 @@ public class Movie {
     @OneToOne
     private Vote vote;
     private boolean enabled;
-//    @Convert(converter = StringToListConverter.class)
-//    private List<String> cinemaCodes;
+    @Convert(converter = StringToListConverter.class)
+    private List<String> cinemaCodes;
 }

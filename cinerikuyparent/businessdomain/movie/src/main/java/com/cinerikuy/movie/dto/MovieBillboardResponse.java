@@ -4,8 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@Schema(name = "MovieMainBillboardResponse", description = "Object to return current billboard movies, no matter the cinema.")
-public class MovieMainBillboardResponse {
+@Schema(name = "MovieBillboardResponse", description = "Object to return current billboard movies, no matter the cinema.")
+public class MovieBillboardResponse {
 
     @Schema(name = "movieCode", example = "M001", description = "Unique movie code")
     private String movieCode;
