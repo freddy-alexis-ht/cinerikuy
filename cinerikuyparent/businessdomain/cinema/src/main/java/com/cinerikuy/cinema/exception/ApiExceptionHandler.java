@@ -1,4 +1,4 @@
-package com.cinerikuy.movie.exception;
+package com.cinerikuy.cinema.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,16 +17,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ApiExceptionHandler {
 
     // For generic method use: @ExceptionHandler(Exception.class)
-    @ExceptionHandler(BillboardException.class)
-    public ResponseEntity<ApiExceptionResponse> handleBillboardException(BillboardException ex) {
-        ApiExceptionResponse response = new ApiExceptionResponse("BILLBOARD VALIDATION", ex.getCode(), ex.getMessage(), ex.getHttpStatus().toString());
+    @ExceptionHandler(CinemaListException.class)
+    public ResponseEntity<ApiExceptionResponse> handleCinemaListException(CinemaListException ex) {
+        ApiExceptionResponse response = new ApiExceptionResponse("LIST VALIDATION", ex.getCode(), ex.getMessage(), ex.getHttpStatus().toString());
         return new ResponseEntity(response, ex.getHttpStatus());
     }
 
-    @ExceptionHandler(MovieDetailsException.class)
-    public ResponseEntity<ApiExceptionResponse> handleMovieDetailsException(MovieDetailsException ex) {
-        ApiExceptionResponse response = new ApiExceptionResponse("MOVIE DETAILS VALIDATION", ex.getCode(), ex.getMessage(), ex.getHttpStatus().toString());
-        return new ResponseEntity(response, ex.getHttpStatus());
-    }
 
 }

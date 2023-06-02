@@ -11,13 +11,24 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface MovieResponseMapper {
 
+    // MAPPERS FOR BILLBOARD
     @Mappings({
             @Mapping(source = "genre.genre", target = "genre")
     })
-    MovieMainBillboardResponse MovieToMovieMainBillboardResponse(Movie source);
+    MovieBillboardResponse MovieToMovieBillboardResponse(Movie source);
 
     @InheritInverseConfiguration
-    Movie MovieMainBillboardResponseToMovie(MovieMainBillboardResponse source);
+    Movie MovieBillboardResponseToMovie(MovieBillboardResponse source);
 
-    List<MovieMainBillboardResponse> MovieListToMovieMainBillboardResponseList(List<Movie> source);
+    List<MovieBillboardResponse> MovieListToMovieBillboardResponseList(List<Movie> source);
+
+    // MAPPERS FOR MOVIE-DETAILS
+    @Mappings({
+            @Mapping(source = "genre.genre", target = "genre"),
+            @Mapping(source = "language.language", target = "language"),
+            @Mapping(source = "situation.situation", target = "situation"),
+            @Mapping(source = "vote.vote", target = "vote")
+    })
+    MovieDetailsResponse MovieToMovieDetailsResponse(Movie source);
+
 }
