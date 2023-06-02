@@ -1,13 +1,15 @@
 package com.cinerikuy.customer.controller;
 
-import com.cinerikuy.customer.dto.*;
+import com.cinerikuy.customer.dto.CustomerLoginRequest;
+import com.cinerikuy.customer.dto.CustomerRequestMapper;
+import com.cinerikuy.customer.dto.CustomerResponse;
+import com.cinerikuy.customer.dto.CustomerResponseMapper;
+import com.cinerikuy.customer.dto.CustomerSignInRequest;
 import com.cinerikuy.customer.entity.Customer;
 import com.cinerikuy.customer.exception.BusinessRuleException;
-import com.cinerikuy.customer.repository.CustomerRepository;
 import com.cinerikuy.customer.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +17,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 @RequestMapping("/customers")
 public class CustomerController {
 
-    @Autowired
-    private CustomerRepository customerRepository;
     @Autowired
     private CustomerService customerService;
     @Autowired

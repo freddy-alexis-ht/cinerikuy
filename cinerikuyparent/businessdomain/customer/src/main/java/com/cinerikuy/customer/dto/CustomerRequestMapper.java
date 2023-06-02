@@ -7,9 +7,9 @@ import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
 public interface CustomerRequestMapper {
-    @Mappings({ // The source in this case is InvoiceRequest
+    @Mappings({
             @Mapping(target = "role", constant = "customer"),
-            @Mapping(target = "state", constant = "1"),
+            @Mapping(target = "enabled", constant = "true"),
             @Mapping(target = "hasVoted", constant = "true")
     })
     Customer CustomerSignInRequestToCustomer(CustomerSignInRequest source);

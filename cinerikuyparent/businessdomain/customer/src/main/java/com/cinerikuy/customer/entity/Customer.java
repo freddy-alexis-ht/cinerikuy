@@ -17,10 +17,7 @@ public class Customer {
     private String lastName;
     private String dni;
     private String cellphone;
-    //@Column(columnDefinition = "varchar(8) default 'customer'")
     private String role;
-    //@Column(columnDefinition = "varchar(1) default '1'")
-    private String state;
-    //@Column(columnDefinition = "boolean default false") // Will store 'f' ('t' for true)
+    private boolean enabled;
     private boolean hasVoted;
 }
