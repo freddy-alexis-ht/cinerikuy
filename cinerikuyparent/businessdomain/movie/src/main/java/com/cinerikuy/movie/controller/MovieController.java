@@ -69,4 +69,17 @@ public class MovieController {
         return ResponseEntity.ok(response);
     }
 
+    /** MOVIE DETAILS */
+    @Operation(summary = "Get movie by movie-code.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Movie returned successfully", content = @Content),
+            @ApiResponse(responseCode = "412", description = "Movie doesn't exist", content = @Content)})
+    @GetMapping("/movieCode/{movieCode}")
+    public ResponseEntity<Movie> findByMovieCode(@PathVariable String movieCode) throws MovieDetailsException {
+        Movie movie = movieService.findByMovieCode(movieCode);
+        if(movie == null)
+            throw new MovieDetailsException("M004", "MovieCode no existe.", HttpStatus.PRECONDITION_FAILED);
+        return ResponseEntity.ok(movie);
+    }
+
 }

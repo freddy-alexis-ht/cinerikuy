@@ -73,4 +73,17 @@ public class CustomerController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Get customer by username.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Customer returned successfully", content = @Content),
+            @ApiResponse(responseCode = "412", description = "Invalid data supplied", content = @Content)})
+    @GetMapping("/username/{username}")
+    public ResponseEntity<Customer> login(@PathVariable String username) throws BusinessRuleException {
+        Customer customer = customerService.findByUsername(username);
+        if(customer == null)
+            throw new BusinessRuleException("004", "Username no existe.", HttpStatus.PRECONDITION_FAILED);
+        return ResponseEntity.ok(customer);
+    }
+
+
 }

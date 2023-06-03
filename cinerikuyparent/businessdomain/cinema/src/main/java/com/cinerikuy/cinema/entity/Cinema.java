@@ -18,6 +18,7 @@ public class Cinema {
     private String name;
     private String address;
     private String district;
+    private double ticketPrice;
     @ManyToOne
     private City city;
     private boolean enabled;
