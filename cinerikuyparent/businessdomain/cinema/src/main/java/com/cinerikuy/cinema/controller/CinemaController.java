@@ -39,4 +39,16 @@ public class CinemaController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Get cinema by cinemaCode.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cinema returned successfully", content = @Content),
+            @ApiResponse(responseCode = "412", description = "Cinema doesn't exist", content = @Content)})
+    @GetMapping("/cinemaCode/{cinemaCode}")
+    public ResponseEntity<Cinema> findByCinemaCode(@PathVariable String cinemaCode) throws CinemaListException {
+        Cinema cinema = cinemaService.findByCinemaCode(cinemaCode);
+        if(cinema == null)
+            throw new CinemaListException("C002", "CinemaCode no existe.", HttpStatus.PRECONDITION_FAILED);
+        return ResponseEntity.ok(cinema);
+    }
+
 }

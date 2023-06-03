@@ -9,6 +9,7 @@ CREATE TABLE cinema (
    name VARCHAR(20) NOT NULL,
    address VARCHAR(20) NOT NULL,
    district VARCHAR(20) NOT NULL,
+   ticket_price DOUBLE NOT NULL,
    enabled BOOLEAN NOT NULL,
    city_id INT,
    foreign key (city_id) references city(id)

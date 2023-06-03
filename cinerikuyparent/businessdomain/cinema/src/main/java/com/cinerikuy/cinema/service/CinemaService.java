@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,6 +22,13 @@ public class CinemaService {
         return list.stream()
                 .filter(c -> c.isEnabled())
                 .collect(Collectors.toList());
+    }
+
+    public Cinema findByCinemaCode(String cinemaCode) {
+        Optional<Cinema> cinema = cinemaRepository.findByCinemaCode(cinemaCode);
+        if(!cinema.isPresent()) return null;
+        if(!cinema.get().isEnabled()) return null;
+        return cinema.get();
     }
 
 }

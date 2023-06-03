@@ -32,13 +32,16 @@ public class MovieService {
     }
 
     public Movie getMovieDetails(String movieCode) {
-        Optional<Movie> findByMovieCode = movieRepository.findByMovieCode(movieCode);
-        if(!findByMovieCode.isPresent())
-            return null;
-        Movie movie = findByMovieCode.get();
-        if(!movie.isEnabled())
-            return null;
+        Movie movie = this.findByMovieCode(movieCode);
+        if(movie == null) return null;
         return movie;
+    }
+
+    public Movie findByMovieCode(String movieCode) {
+        Optional<Movie> movie = movieRepository.findByMovieCode(movieCode);
+        if(!movie.isPresent()) return null;
+        if(!movie.get().isEnabled()) return null;
+        return movie.get();
     }
 
 }

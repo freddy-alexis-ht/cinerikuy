@@ -17,5 +17,7 @@ public class CinemaResponse {
     private String district;
     @Schema(name = "city", example = "Lima", description = "Cinema city")
     private String city;
+    @Schema(name = "ticketPrice", example = "S/ 10.00", description = "Cinema ticket price")
+    private String ticketPrice;
 
 }

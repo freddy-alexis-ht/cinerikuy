@@ -24,29 +24,36 @@ public class CustomerService {
     }
 
     public boolean isNewUsername(String username) {
-        if(this.findByUsername(username) == null)
+        if(this.getCustomerByUsername(username) == null)
             return true;
         return false;
     }
 
     public boolean isNewDni(String dni) {
-        if(this.findByDni(dni) == null)
+        if(this.getCustomerByDni(dni) == null)
             return true;
         return false;
     }
 
-    public Customer findByUsername(String username) {
+    private Customer getCustomerByUsername(String username) {
         Optional<Customer> findByUsername = customerRepository.findByUsername(username);
         if(findByUsername.isPresent())
             return findByUsername.get();
         return null;
     }
 
-    private Customer findByDni(String dni) {
+    private Customer getCustomerByDni(String dni) {
         Optional<Customer> findByDni = customerRepository.findByDni(dni);
         if(findByDni.isPresent())
             return findByDni.get();
         return null;
+    }
+
+    public Customer findByUsername(String username) {
+        Optional<Customer> findByUsername = customerRepository.findByUsername(username);
+        if(!findByUsername.isPresent()) return null;
+        if(!findByUsername.get().isEnabled()) return null;
+        return findByUsername.get();
     }
 
     public boolean comparePasswords(String password, String dbPassword) {
