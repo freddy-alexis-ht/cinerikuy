@@ -7,6 +7,8 @@ import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
 public interface TransactionResponseMapper {
+
+    // TODO .. Aun no se ha usado. Se usará para generar el Comprobante de pago
     @Mappings({
             @Mapping(expression = "java(getTicketsTotalPrice( source.getCinemaData().getCinemaTicketPrice()," +
                     " source.getMovieData().getMovieNumberOfTickets() ))",

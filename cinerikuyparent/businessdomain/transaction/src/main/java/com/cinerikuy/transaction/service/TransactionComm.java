@@ -1,8 +1,11 @@
 package com.cinerikuy.transaction.service;
 
+import com.cinerikuy.transaction.dto.TransactionProductRequest;
 import com.cinerikuy.transaction.entity.CinemaData;
 import com.cinerikuy.transaction.entity.CustomerData;
 import com.cinerikuy.transaction.entity.MovieData;
+import com.cinerikuy.transaction.entity.ProductData;
+import com.cinerikuy.transaction.exception.BusinessRuleException;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
@@ -19,8 +22,12 @@ import reactor.netty.http.client.HttpClient;
 import reactor.netty.tcp.TcpClient;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionComm {
@@ -39,37 +46,6 @@ public class TransactionComm {
                 connection.addHandlerLast(new WriteTimeoutHandler(5000, TimeUnit.MILLISECONDS));
             });
 
-    /*
-    public CustomerData validateCustomerExistence(TransactionRequest request) throws BusinessRuleException, UnknownHostException {
-        CustomerData customerData = this.getCustomerData(request.getCustomerData());
-        if (customerData == null || customerData.getCustomerUsername().trim().length() == 0) {
-            BusinessRuleException exception = new BusinessRuleException("1026", "Error de validación, customer no existe", HttpStatus.PRECONDITION_FAILED);
-            throw exception;
-        }
-        return customerData;
-    }
-    private CustomerData getCustomerData(CustomerData customerData) throws UnknownHostException {
-        try {
-            WebClient webClient = webClientBuilder.clientConnector(new ReactorClientHttpConnector(HttpClient.from(tcpClient)))
-                    .baseUrl("http://localhost:9091/customers")
-                    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                    .defaultUriVariables(Collections.singletonMap("url", "http://localhost:9091/customers"))
-                    .build();
-            JsonNode json = webClient.method(HttpMethod.GET).uri("/dni/"+customerData.getCustomerDni())
-                    .retrieve().bodyToMono(JsonNode.class).block();
-            customerData.setCustomerFirstName(json.get("firstName").asText());
-            customerData.setCustomerLastName(json.get("lastName").asText());
-        } catch (WebClientResponseException e) {
-            HttpStatus statusCode = e.getStatusCode();
-            if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
-                return null;
-            } else {
-                throw new UnknownHostException(e.getMessage());
-            }
-        }
-        return customerData;
-    }
-    * */
     public CustomerData getCustomerData(String username) throws UnknownHostException {
         CustomerData customerData = new CustomerData();
         try {
@@ -144,5 +120,50 @@ public class TransactionComm {
         }
         return movieData;
     }
+
+    public List<ProductData> getProductDataList(TransactionProductRequest request) throws BusinessRuleException, UnknownHostException {
+        List<ProductData> productDataList = new ArrayList<>();
+        if (request.getMapCodeAmount() != null) {
+            HashMap<String, Integer> codeAmount = request.getMapCodeAmount();
+            productDataList = codeAmount.entrySet().stream()
+                    .map(e -> {
+                        ProductData p = new ProductData();
+                        try {
+                            p = this.getProductData(e.getKey());
+                        } catch (UnknownHostException ex) {
+                            ex.printStackTrace();
+                        }
+                        p.setProductAmount(e.getValue());
+                        return p;
+                    })
+                    .collect(Collectors.toList());
+
+            }
+        return productDataList;
+    }
+    public ProductData getProductData(String productCode) throws UnknownHostException {
+        ProductData productData = new ProductData();
+        try {
+            WebClient webClient = webClientBuilder.clientConnector(new ReactorClientHttpConnector(HttpClient.from(tcpClient)))
+                    .baseUrl("http://businessdomain-product/products")
+                    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .defaultUriVariables(Collections.singletonMap("url", "http://businessdomain-product/products"))
+                    .build();
+            JsonNode json = webClient.method(HttpMethod.GET).uri("/productCode/"+productCode)
+                    .retrieve().bodyToMono(JsonNode.class).block();
+            productData.setProductCode(json.get("productCode").asText());
+            productData.setProductName(json.get("name").asText());
+            productData.setProductPrice(json.get("price").asDouble());
+        } catch (WebClientResponseException e) {
+            HttpStatus statusCode = e.getStatusCode();
+            if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+                return null;
+            } else {
+                throw new UnknownHostException(e.getMessage());
+            }
+        }
+        return productData;
+    }
+
 
 }
