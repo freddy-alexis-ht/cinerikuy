@@ -29,4 +29,10 @@ public class TransactionService {
         return transaction.get();
     }
 
+    public Transaction findByTransactionCode(String transactionCode) {
+        Optional<Transaction> transaction = transactionRepository.findByTransactionCode(transactionCode);
+        if(!transaction.isPresent()) return null;
+        return transaction.get();
+    }
+
 }
