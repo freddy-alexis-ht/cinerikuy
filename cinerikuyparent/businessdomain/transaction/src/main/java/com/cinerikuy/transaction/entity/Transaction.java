@@ -3,7 +3,8 @@ package com.cinerikuy.transaction.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @Data
@@ -12,12 +13,13 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String transactionCode;
+    private boolean paid;
     @Embedded
     private CustomerData customerData;
     @Embedded
     private CinemaData cinemaData;
     @Embedded
     private MovieData movieData;
-    @ElementCollection
-    private List<ProductData> productDataList;
+    @OneToMany(mappedBy = "transaction")
+    private Collection<ProductData> productDataList = new ArrayList<>();
 }

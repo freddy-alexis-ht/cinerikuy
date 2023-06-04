@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
+// TODO .. cambiar el nombre y usarlo
 @Getter
 @Setter
 public class BusinessRuleException extends Exception {

@@ -28,6 +28,10 @@ spring:
           uri: lb://businessdomain-transaction
           predicates:
             - Path=/**
+        - id: product-service
+          uri: lb://businessdomain-product
+          predicates:
+            - Path=/**
 
 eureka:
   client:

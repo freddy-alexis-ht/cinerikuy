@@ -25,7 +25,7 @@ public class CinemaController {
     @Autowired
     private CinemaResponseMapper cinResMapper;
 
-    /** ALL THE CINEMAS */
+    // TODO .. cambiar el nombre de la excepción a 'CinemaException'
     @Operation(summary = "Get all cinemas.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "All cinemas returned", content = @Content),
