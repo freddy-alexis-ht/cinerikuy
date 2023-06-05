@@ -3,6 +3,7 @@ package com.cinerikuy.movie.controller;
 import com.cinerikuy.movie.dto.MovieBillboardResponse;
 import com.cinerikuy.movie.dto.MovieDetailsResponse;
 import com.cinerikuy.movie.dto.MovieResponseMapper;
+import com.cinerikuy.movie.dto.MovieVotingResponse;
 import com.cinerikuy.movie.entity.Movie;
 import com.cinerikuy.movie.exception.BillboardException;
 import com.cinerikuy.movie.exception.MovieDetailsException;
@@ -27,7 +28,6 @@ public class MovieController {
     @Autowired
     private MovieResponseMapper movResMapper;
 
-    /** GENERAL BILLBOARD */
     @Operation(summary = "Get the main billboard (no matter the cinema).")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Main billboard returned", content = @Content),
@@ -41,7 +41,6 @@ public class MovieController {
         return ResponseEntity.ok(response);
     }
 
-    /** SPECIFIC BILLBOARD */
     @Operation(summary = "Get billboard of specific cinema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Main billboard returned", content = @Content),
@@ -55,7 +54,6 @@ public class MovieController {
         return ResponseEntity.ok(response);
     }
 
-    /** MOVIE DETAILS */
     @Operation(summary = "Get movie details by movie-code.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Movie details returned", content = @Content),
@@ -69,7 +67,6 @@ public class MovieController {
         return ResponseEntity.ok(response);
     }
 
-    /** MOVIE DETAILS */
     @Operation(summary = "Get movie by movie-code.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Movie returned successfully", content = @Content),
@@ -82,4 +79,16 @@ public class MovieController {
         return ResponseEntity.ok(movie);
     }
 
+    @Operation(summary = "Get peruvian movies in voting period.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Peruvian movies returned successfully", content = @Content),
+            @ApiResponse(responseCode = "412", description = "There are not peruvian movies in voting", content = @Content)})
+    @GetMapping("/voting")
+    public ResponseEntity<List<MovieVotingResponse>> findMoviesInVoting() throws MovieDetailsException {
+        List<Movie> movies = movieService.peruvianMovies();
+        if(movies == null || movies.isEmpty())
+            throw new MovieDetailsException("M005", "No hay películas peruanas en votación.", HttpStatus.PRECONDITION_FAILED);
+        List<MovieVotingResponse> response = movResMapper.MovieListToMovieVotingResponseList(movies);
+        return ResponseEntity.ok(response);
+    }
 }

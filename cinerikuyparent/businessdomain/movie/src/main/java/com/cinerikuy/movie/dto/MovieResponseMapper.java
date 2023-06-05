@@ -31,4 +31,13 @@ public interface MovieResponseMapper {
     })
     MovieDetailsResponse MovieToMovieDetailsResponse(Movie source);
 
+    // MAPPERS FOR VOTING
+    @Mappings({
+            @Mapping(source = "language.language", target = "language"),
+            @Mapping(source = "genre.genre", target = "genre")
+    })
+    MovieVotingResponse MovieToMovieVotingResponse(Movie source);
+
+    List<MovieVotingResponse> MovieListToMovieVotingResponseList(List<Movie> source);
+
 }
