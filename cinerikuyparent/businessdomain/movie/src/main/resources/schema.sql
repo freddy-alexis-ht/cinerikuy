@@ -42,3 +42,9 @@ CREATE TABLE movie (
    foreign key (vote_id) references vote(id)
 );
 
+CREATE TABLE voting (
+    movie_id INT NOT NULL,
+    username VARCHAR NOT NULL,
+    foreign key(movie_id) REFERENCES movie(id),
+    primary key(movie_id, username)
+);
