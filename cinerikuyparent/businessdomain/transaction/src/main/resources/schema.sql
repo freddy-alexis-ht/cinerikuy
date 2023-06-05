@@ -26,4 +26,16 @@ CREATE TABLE product_data (
    foreign key (transaction_id) references transaction(id)
 );
 
+CREATE TABLE billing (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   transaction_code VARCHAR,
+   cinema_name VARCHAR,
+   movie_name VARCHAR,
+   movie_schedule VARCHAR,
+   total_cost DOUBLE,
+   date TIMESTAMP,
+   transaction_id INT,
+   foreign key (transaction_id) references transaction(id)
+);
+
 

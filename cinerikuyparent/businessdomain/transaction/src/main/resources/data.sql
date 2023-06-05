@@ -7,3 +7,6 @@ INSERT INTO product_data (product_code, product_name, product_price, product_amo
 VALUES ('P01', 'Popcorn Pequeño', 7, 2, 1);
 INSERT INTO product_data (product_code, product_name, product_price, product_amount, transaction_id)
 VALUES ('P05', 'Bebida Pequeña (8oz)', 6, 2, 1);
+
+INSERT INTO billing (transaction_code, cinema_name, movie_name, movie_schedule, total_cost, date, transaction_id)
+VALUES ('TR1', 'CR Centro Cívico', 'Domingo 007', '5:30', 62, '2022-12-31 23.59.59', 1);

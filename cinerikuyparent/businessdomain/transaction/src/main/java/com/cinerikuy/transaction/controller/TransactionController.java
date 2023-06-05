@@ -112,7 +112,7 @@ public class TransactionController {
         if(transaction == null)
             throw new BusinessRuleException("ErrT002", "TransactionCode no existe.", HttpStatus.PRECONDITION_FAILED);
         if(transaction.isPaid())
-            throw new BusinessRuleException("ErrT003", "Transacción ya pagada.", HttpStatus.PRECONDITION_FAILED);
+            throw new BusinessRuleException("ErrT003", "La transacción ya estaba pagada.", HttpStatus.PRECONDITION_FAILED);
 
         // Transaction -> mappear -> Billing (transactionCode, movieName, movieSchedule)
         Billing billing = new Billing();
@@ -137,7 +137,7 @@ public class TransactionController {
                 .sum();
 
         billing.setTotalCost(totalTicketCost+totalProductCost);
-
+        billing.setTransaction(transaction);
         Billing saved = billingService.post(billing);
         if(saved != null) {
             transaction.setPaid(true);
