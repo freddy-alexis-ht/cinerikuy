@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionService {
@@ -19,18 +20,28 @@ public class TransactionService {
     }
 
     public Transaction getLast(String username) {
-        List<Transaction> list = transactionRepository.findAll();
-        if(list == null || list.isEmpty())
-            return null;
-        Optional<Transaction> transaction = list.stream()
-                .filter(t -> !t.isPaid())
-                .findFirst();
-        if(!transaction.isPresent()) return null;
-        return transaction.get();
+        Transaction transaction = this.findNonPaidByUsername(username);
+        return transaction;
     }
 
     public Transaction findByTransactionCode(String transactionCode) {
         Optional<Transaction> transaction = transactionRepository.findByTransactionCode(transactionCode);
+        if(!transaction.isPresent()) return null;
+        return transaction.get();
+    }
+
+    public List<Transaction> findPaidByUsername(String username) {
+        List<Transaction> transactions = transactionRepository.findByCustomerDataCustomerUsername(username);
+        if(transactions.isEmpty() || transactions==null) return null;
+        return transactions.stream().filter(t -> t.isPaid() == true).collect(Collectors.toList());
+    }
+
+    public Transaction findNonPaidByUsername(String username) {
+        List<Transaction> transactions = transactionRepository.findByCustomerDataCustomerUsername(username);
+        if(transactions.isEmpty() || transactions==null) return null;
+        Optional<Transaction> transaction = transactions.stream()
+                .filter(t -> !t.isPaid())
+                .findFirst();
         if(!transaction.isPresent()) return null;
         return transaction.get();
     }

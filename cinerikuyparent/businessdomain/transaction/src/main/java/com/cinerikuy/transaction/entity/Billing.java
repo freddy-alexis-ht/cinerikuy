@@ -15,7 +15,6 @@ public class Billing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-//    private String username;
     private String transactionCode;
     private String cinemaName;
     private String movieName;
