@@ -6,8 +6,8 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@Schema(name = "MovieVotingResponse", description = "Object to return peruvian movie in voting.")
-public class MovieVotingResponse {
+@Schema(name = "VotingListResponse", description = "Object to return peruvian movie in voting.")
+public class VotingListResponse {
 
     @Schema(name = "movieCode", example = "M001", description = "Unique movie code")
     private String movieCode;

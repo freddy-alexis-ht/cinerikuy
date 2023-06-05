@@ -36,8 +36,8 @@ public interface MovieResponseMapper {
             @Mapping(source = "language.language", target = "language"),
             @Mapping(source = "genre.genre", target = "genre")
     })
-    MovieVotingResponse MovieToMovieVotingResponse(Movie source);
+    VotingListResponse MovieToVotingListResponse(Movie source);
 
-    List<MovieVotingResponse> MovieListToMovieVotingResponseList(List<Movie> source);
+    List<VotingListResponse> MovieListToVotingListResponseList(List<Movie> source);
 
 }
