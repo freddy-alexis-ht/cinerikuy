@@ -1,8 +1,15 @@
 package com.cinerikuy.transaction.controller;
 
+import com.cinerikuy.transaction.dto.TransactionBillingResponse;
 import com.cinerikuy.transaction.dto.TransactionProductRequest;
+import com.cinerikuy.transaction.dto.TransactionResponseMapper;
 import com.cinerikuy.transaction.dto.TransactionTicketRequest;
-import com.cinerikuy.transaction.entity.*;
+import com.cinerikuy.transaction.entity.Billing;
+import com.cinerikuy.transaction.entity.CinemaData;
+import com.cinerikuy.transaction.entity.CustomerData;
+import com.cinerikuy.transaction.entity.MovieData;
+import com.cinerikuy.transaction.entity.ProductData;
+import com.cinerikuy.transaction.entity.Transaction;
 import com.cinerikuy.transaction.exception.BusinessRuleException;
 import com.cinerikuy.transaction.repository.TransactionRepository;
 import com.cinerikuy.transaction.service.BillingService;
@@ -21,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/transactions")
@@ -36,6 +44,8 @@ public class TransactionController {
     private ProductDataService productDataService;
     @Autowired
     private BillingService billingService;
+    @Autowired
+    private TransactionResponseMapper traResMapper;
 
     @Operation(summary = "Buying tickets of specific movie.")
     @ApiResponses(value = {
@@ -74,30 +84,30 @@ public class TransactionController {
         // if customer's last transaction is non-paid, it means it comes from the buyTickets-flux
         // ..username's data won't be set, because it already exists
         // If customer's last transaction is paid, it means we're in the buyProducts-flux
-        Transaction transaction = transactionService.getLast(request.getUsername());
+        final Transaction transaction = transactionService.getLast(request.getUsername());
+        // In any case, productData will be set
+        List<ProductData> productDataList = transactionComm.getProductDataList(request);
         boolean buyProductsFlux = false;
+        // TODO .. refactor this
         // transaction: null .. buyProducts-flux
         if(transaction == null) {
             buyProductsFlux = true;
-            transaction = new Transaction();
+            Transaction newTransaction = new Transaction();
             CustomerData customerData = transactionComm.getCustomerData(request.getUsername());
-            transaction.setCustomerData(customerData);
-            transaction.setPaid(false);
-        }
-        // In any case, productData will be set
-        List<ProductData> productDataList = transactionComm.getProductDataList(request);
-        // TODO .. refactor this
-        if(buyProductsFlux) {
-            Transaction saved = transactionService.post(transaction);
+            CinemaData cinemaData = transactionComm.getCinemaData(request.getCinemaCode());
+            newTransaction.setCustomerData(customerData);
+            newTransaction.setCinemaData(cinemaData);
+            newTransaction.setPaid(false);
+            Transaction saved = transactionService.post(newTransaction);
             saved.setTransactionCode("TR"+saved.getId());
-            Transaction saved2 = transactionRepository.save(transaction);
-            //productDataList.stream().forEach(p -> { p.setTransaction(saved2));
+            Transaction saved2 = transactionService.post(saved);
             productDataList.stream().forEach(p -> { p.setTransaction(saved2); productDataService.saveProductData(p);});
             return ResponseEntity.ok(saved2.getTransactionCode());
         }
-        Transaction saved3 = transactionRepository.save(transaction);
-        productDataList.stream().forEach(p -> { p.setTransaction(saved3); productDataService.saveProductData(p);});
-        return ResponseEntity.ok(saved3.getTransactionCode());
+        //productDataList.stream().forEach(p -> { p.setTransaction(transaction); productDataService.saveProductData(p);});
+        productDataList.stream().forEach(p -> p.setTransaction(transaction));
+        productDataList.stream().forEach(p -> productDataService.saveProductData(p));
+        return ResponseEntity.ok(transaction.getTransactionCode());
     }
 
     @Operation(summary = "Create billing")
@@ -117,16 +127,22 @@ public class TransactionController {
         // Transaction -> mappear -> Billing (transactionCode, movieName, movieSchedule)
         Billing billing = new Billing();
         billing.setTransactionCode(transaction.getTransactionCode());
-        billing.setMovieName(transaction.getMovieData().getMovieName());
-        billing.setMovieSchedule(transaction.getMovieData().getMovieSchedule());
+        if(transaction.getMovieData() != null) {
+            billing.setMovieName(transaction.getMovieData().getMovieName());
+            billing.setMovieSchedule(transaction.getMovieData().getMovieSchedule());
+        } else {
+            billing.setMovieName("Ninguna. Solo productos");
+            billing.setMovieSchedule("Ninguna. Solo productos");
+        }
         billing.setCinemaName(transaction.getCinemaData().getCinemaName());
         billing.setDate(LocalDateTime.now());
 
         double totalTicketCost;
-        if(transaction.getCinemaData() == null || transaction.getMovieData() == null)
+        if(transaction.getMovieData() == null)
             totalTicketCost = 0;
         else
             totalTicketCost = transaction.getCinemaData().getCinemaTicketPrice() * transaction.getMovieData().getMovieNumberOfTickets();
+
         double totalProductCost = 0;
         List<ProductData> lista = productDataService.findByTransactionId(transaction.getId());
         if(lista == null)
@@ -157,5 +173,25 @@ public class TransactionController {
             throw new BusinessRuleException("ErrT002", "TransactionCode no existe.", HttpStatus.PRECONDITION_FAILED);
         return ResponseEntity.ok(transaction);
     }
+
+    @Operation(summary = "Get billings by username.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Billings returned successfully", content = @Content),
+            @ApiResponse(responseCode = "412", description = "The customer doesn't have billings", content = @Content)})
+    @GetMapping("/billings/{username}")
+    public ResponseEntity<List<TransactionBillingResponse>> findBillings(@PathVariable String username) throws BusinessRuleException {
+        // ir a transaction-db buscar según el username todos los transactionCode
+        // .. de los Transaction que son paid=true
+        List<Transaction> transactions = transactionService.findPaidByUsername(username);
+        if(transactions == null)
+            throw new BusinessRuleException("ErrT002", "El cliente no tiene transacciones.", HttpStatus.PRECONDITION_FAILED);
+        List<String> transactionCodes = transactions.stream()
+                .map(t -> t.getTransactionCode())
+                .collect(Collectors.toList());
+        List<Billing> billings = billingService.getBillings(transactionCodes);
+        List<TransactionBillingResponse> response = traResMapper.BillingListToTransactionBillingResponseList(billings);
+        return ResponseEntity.ok(response);
+    }
+
 
 }

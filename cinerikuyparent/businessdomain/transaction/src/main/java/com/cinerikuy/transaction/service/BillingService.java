@@ -5,6 +5,9 @@ import com.cinerikuy.transaction.repository.BillingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class BillingService {
 
@@ -13,5 +16,11 @@ public class BillingService {
 
     public Billing post(Billing billing) {
         return billingRepository.save(billing);
+    }
+
+    public List<Billing> getBillings(List<String> transactionCodes) {
+        return transactionCodes.stream()
+                .map(t -> billingRepository.findByTransactionCode(t))
+                .collect(Collectors.toList());
     }
 }

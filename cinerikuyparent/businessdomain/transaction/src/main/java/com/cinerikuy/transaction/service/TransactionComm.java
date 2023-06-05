@@ -137,10 +137,10 @@ public class TransactionComm {
                         return p;
                     })
                     .collect(Collectors.toList());
-
             }
         return productDataList;
     }
+
     public ProductData getProductData(String productCode) throws UnknownHostException {
         ProductData productData = new ProductData();
         try {
