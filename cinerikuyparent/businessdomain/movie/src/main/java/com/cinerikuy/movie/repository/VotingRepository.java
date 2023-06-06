@@ -9,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Repository
 public interface VotingRepository extends JpaRepository<Voting, VotingPK> {
     @Transactional
@@ -18,4 +20,6 @@ public interface VotingRepository extends JpaRepository<Voting, VotingPK> {
                     "insert into voting (movie_id, username) values (:movie_id, :username)",
             nativeQuery = true)
     void insertVoting(@Param("movie_id") Long movieId, @Param("username") String username);
+
+    Optional<Voting> findByVotingPKUsername(String username);
 }

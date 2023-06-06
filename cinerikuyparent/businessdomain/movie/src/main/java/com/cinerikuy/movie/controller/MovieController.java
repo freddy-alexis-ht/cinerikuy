@@ -86,12 +86,25 @@ public class MovieController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Peruvian movies returned successfully", content = @Content),
             @ApiResponse(responseCode = "412", description = "There are not peruvian movies in voting", content = @Content)})
-    @GetMapping("/voting")
-    public ResponseEntity<List<VotingListResponse>> findMoviesInVoting() throws MovieDetailsException {
+    @GetMapping("/voting/{username}")
+    public ResponseEntity<List<VotingListResponse>> findMoviesInVoting(@PathVariable String username) throws MovieDetailsException {
+        Voting voting = votingService.findByUsername(username);
+
         List<Movie> movies = movieService.peruvianMovies();
         if(movies == null || movies.isEmpty())
             throw new MovieDetailsException("M005", "No hay películas peruanas en votación.", HttpStatus.PRECONDITION_FAILED);
+        if(voting == null) {
+            List<VotingListResponse> response = movResMapper.MovieListToVotingListResponseList(movies);
+            return ResponseEntity.ok(response);
+        }
+        String votedMovieCode = movies.stream()
+                .filter(m -> m.getId() == voting.getVotingPK().getMovieId())
+                .findFirst().get()
+                .getMovieCode();
         List<VotingListResponse> response = movResMapper.MovieListToVotingListResponseList(movies);
+        response.stream()
+                .filter(r -> r.getMovieCode() == votedMovieCode)
+                .findFirst().get().setVoted(true);
         return ResponseEntity.ok(response);
     }
 

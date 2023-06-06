@@ -27,4 +27,6 @@ public class VotingListResponse {
     private String genre;
     @Schema(name = "language", example = "Español", description = "Movie language")
     private String language;
+    @Schema(name = "voted", example = "true|false", description = "Movie with a vote registered")
+    private boolean voted = false;
 }
