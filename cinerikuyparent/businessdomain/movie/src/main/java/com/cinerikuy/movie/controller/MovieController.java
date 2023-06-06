@@ -18,8 +18,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/movies")
@@ -141,6 +144,36 @@ public class MovieController {
                 return ResponseEntity.ok("Sí había voto y voto por otro");
             }
         }
+    }
+
+    @Operation(summary = "Get voting results.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Voting results returned successfully", content = @Content),
+            @ApiResponse(responseCode = "412", description = "Error returning voting results", content = @Content)})
+    @GetMapping("/voting/results")
+    public ResponseEntity<VotingResultResponse> getVotingResults() throws MovieDetailsException {
+        List<Voting> votings = votingService.findAll();
+        // TODO .. crear una excepción específica para Voting
+        if(votings == null)
+            throw new MovieDetailsException("M005", "Nadie ha votado.", HttpStatus.PRECONDITION_FAILED);
+
+        List<String> names = votings.stream()
+                .map( v -> {
+                    Long movieId = v.getVotingPK().getMovieId();
+                    return movieService.findById(movieId).getName();
+                }).collect(Collectors.toList());
+
+        Map<String, Long> counters = names.stream()
+                .collect(Collectors.groupingBy(n -> n,
+                        Collectors.counting()));
+
+        long totalVotes = names.stream().count();
+
+        VotingResultResponse response = new VotingResultResponse();
+        response.setNamesAndNumber(counters);
+        response.setTotalVotes(totalVotes);
+
+        return ResponseEntity.ok(response);
     }
 
 }

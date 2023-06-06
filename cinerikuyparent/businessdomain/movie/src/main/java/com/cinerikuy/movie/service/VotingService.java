@@ -5,6 +5,7 @@ import com.cinerikuy.movie.repository.VotingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,6 +26,12 @@ public class VotingService {
 
     public Long deleteByUsername(String username) {
         return votingRepository.deleteByVotingPKUsername(username);
+    }
+
+    public List<Voting> findAll() {
+        List<Voting> votings = votingRepository.findAll();
+        if(votings.isEmpty() || votings == null) return null;
+        return votings;
     }
 
 }

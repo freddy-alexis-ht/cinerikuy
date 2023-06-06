@@ -53,5 +53,10 @@ public class MovieService {
         return response;
     }
 
+    public Movie findById(long movieId) {
+        Optional<Movie> movie = movieRepository.findById(movieId);
+        if(!movie.isPresent()) return null;
+        return movie.get();
+    }
 
 }
