@@ -22,4 +22,9 @@ public class VotingService {
         if(!voting.isPresent()) return null;
         return voting.get();
     }
+
+    public Long deleteByUsername(String username) {
+        return votingRepository.deleteByVotingPKUsername(username);
+    }
+
 }

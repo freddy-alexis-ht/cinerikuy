@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/movies")
@@ -114,15 +115,32 @@ public class MovieController {
             @ApiResponse(responseCode = "412", description = "Error registering vote", content = @Content)})
     @PostMapping("/vote-up")
     public ResponseEntity<String> voteUpForMovie(@RequestBody VotingUpRequest request) throws MovieDetailsException {
-        Movie movie = movieService.findByMovieCode(request.getMovieCode());
-        if(movie == null)
-            throw new MovieDetailsException("M006", "No hay películas con ese movie-code.", HttpStatus.PRECONDITION_FAILED);
-        try{
+        List<VotingListResponse> movieVoting = this.findMoviesInVoting(request.getUsername()).getBody();
+        boolean hasVotes;
+        Optional<VotingListResponse> any = movieVoting.stream()
+                .filter(m -> m.isVoted())
+                .findAny();
+        if(!any.isPresent()) { // no hay votos
+            if(request.getMovieCode().equals(""))
+                return ResponseEntity.ok("No había voto y no voto");
+            Movie movie = movieService.findByMovieCode(request.getMovieCode());
             votingService.post(movie.getId(), request.getUsername());
-        }catch (DataIntegrityViolationException e) {
-            throw new MovieDetailsException("M007", "El usuario no puede votar por 2 películas, solo 1.", HttpStatus.PRECONDITION_FAILED);
+            return ResponseEntity.ok("No había voto y voto");
+        }else{
+            if(request.getMovieCode().equals(""))
+                return ResponseEntity.ok("Sí había voto y no voto");
+            String oldMovieCode = any.get().getMovieCode();
+            String newMovieCode = request.getMovieCode();
+            if(oldMovieCode.equals(newMovieCode)) {
+                votingService.deleteByUsername(request.getUsername());
+                return ResponseEntity.ok("Sí había voto y le quitó el voto");
+            }else{
+                votingService.deleteByUsername(request.getUsername());
+                Movie movie = movieService.findByMovieCode(request.getMovieCode());
+                votingService.post(movie.getId(), request.getUsername());
+                return ResponseEntity.ok("Sí había voto y voto por otro");
+            }
         }
-        return ResponseEntity.ok("Éxito");
     }
 
 }
