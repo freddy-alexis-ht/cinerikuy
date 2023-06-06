@@ -44,4 +44,14 @@ public class MovieService {
         return movie.get();
     }
 
+    public List<Movie> peruvianMovies() {
+        List<Movie> movies = movieRepository.findAll();
+        if(movies == null || movies.isEmpty()) return null;
+        List<Movie> response =  movies.stream()
+                .filter(m -> m.isEnabled()==true && m.isPeruvian()==true && m.getVote().getVote().equals("Votación"))
+                .collect(Collectors.toList());
+        return response;
+    }
+
+
 }

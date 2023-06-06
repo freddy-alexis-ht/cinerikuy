@@ -1,15 +1,12 @@
 package com.cinerikuy.movie.entity;
 
 import com.cinerikuy.movie.service.StringToListConverter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -37,6 +34,9 @@ public class Movie {
     private Situation situation;
     @OneToOne
     private Vote vote;
+    @OneToMany(mappedBy = "movie")
+    @JsonIgnore
+    private Collection<Voting> votings = new ArrayList<>();
     private boolean enabled;
     @Convert(converter = StringToListConverter.class)
     private List<String> cinemaCodes;
