@@ -3,7 +3,6 @@ package com.cinerikuy.cinema.controller;
 import com.cinerikuy.cinema.entity.Cinema;
 import com.cinerikuy.cinema.entity.City;
 import com.cinerikuy.cinema.exception.AdminException;
-import com.cinerikuy.cinema.exception.CinemaListException;
 import com.cinerikuy.cinema.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,6 +30,8 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    /** POR CUESTIONES DE INTEGRIDAD DE LA DATA, EL BORRADO FÍSICO NO ES POSIBLE, SOLO BORRADO LÓGICO */
+
     /** CINEMA */
 
     @Tag(name = "admin-cinema")
@@ -39,10 +40,10 @@ public class AdminController {
             @ApiResponse(responseCode = "200", description = "Todos los cines recuperados con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "No hay cines en la base de datos", content = @Content)})
     @GetMapping("/cinemas")
-    public ResponseEntity<List<Cinema>> cinemaFindAll() throws CinemaListException {
+    public ResponseEntity<List<Cinema>> cinemaFindAll() throws AdminException {
         List<Cinema> list = adminService.cinemaFindAll();
         if(list == null)
-            throw new CinemaListException("C001", "No hay cines en la base de datos.", HttpStatus.PRECONDITION_FAILED);
+            throw new AdminException("C001", "No hay cines en la base de datos.", HttpStatus.PRECONDITION_FAILED);
         return ResponseEntity.ok(list);
     }
 
@@ -52,10 +53,10 @@ public class AdminController {
             @ApiResponse(responseCode = "200", description = "Cine recuperado con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "No existe un cine con ese 'id'", content = @Content)})
     @GetMapping("/cinemas/{id}")
-    public ResponseEntity<Cinema> cinemaFindById(@PathVariable long id) throws CinemaListException {
+    public ResponseEntity<Cinema> cinemaFindById(@PathVariable long id) throws AdminException {
         Cinema cinema = adminService.cinemaFindById(id);
         if(cinema == null)
-            throw new CinemaListException("C001", "El cine buscado no existe.", HttpStatus.PRECONDITION_FAILED);
+            throw new AdminException("C001", "El cine buscado no existe.", HttpStatus.PRECONDITION_FAILED);
         return ResponseEntity.ok(cinema);
     }
 
@@ -65,34 +66,34 @@ public class AdminController {
             @ApiResponse(responseCode = "200", description = "Cine guardado/actualizado con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "Error al momento de guardar/actualizar el cine enviado", content = @Content)})
     @PostMapping("/cinemas")
-    public ResponseEntity<Cinema> cinemaSaveUpdate(@RequestBody Cinema input) throws CinemaListException {
+    public ResponseEntity<Cinema> cinemaSaveUpdate(@RequestBody Cinema input) throws AdminException {
         Cinema save;
         try{
             save = adminService.cinemaSaveUpdate(input);
         }catch (Exception e) {
-            throw new CinemaListException("C001", "Error en la data enviada.", HttpStatus.PRECONDITION_FAILED);
+            throw new AdminException("C001", "Error en la data enviada.", HttpStatus.PRECONDITION_FAILED);
         }
         return ResponseEntity.ok(save);
     }
 
-    @Tag(name = "admin-cinema")
-    @Operation(summary = "Elimina 1 cine por su 'id'.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Cine eliminado con éxito", content = @Content),
-            @ApiResponse(responseCode = "412", description = "No existe un cine con ese 'id'", content = @Content)})
-    @DeleteMapping("/cinemas/{id}")
-    public ResponseEntity<String> cinemaDelete(@PathVariable long id) throws CinemaListException {
-        Cinema cinema = this.cinemaFindById(id).getBody();
-        adminService.cinemaDelete(id);
-        String message = "";
-        try{
-            this.cinemaFindById(id).getBody();
-        }catch (CinemaListException e){
-            message = "Cine eliminado con éxito";
-        }finally{
-            return ResponseEntity.ok(message);
-        }
-    }
+//    @Tag(name = "admin-cinema")
+//    @Operation(summary = "Elimina 1 cine por su 'id'.")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Cine eliminado con éxito", content = @Content),
+//            @ApiResponse(responseCode = "412", description = "No existe un cine con ese 'id'", content = @Content)})
+//    @DeleteMapping("/cinemas/{id}")
+//    public ResponseEntity<String> cinemaDelete(@PathVariable long id) throws AdminException {
+//        Cinema cinema = this.cinemaFindById(id).getBody();
+//        adminService.cinemaDelete(id);
+//        String message = "";
+//        try{
+//            this.cinemaFindById(id).getBody();
+//        }catch (AdminException e){
+//            message = "Cine eliminado con éxito";
+//        }finally{
+//            return ResponseEntity.ok(message);
+//        }
+//    }
 
     /** CITY */
 
