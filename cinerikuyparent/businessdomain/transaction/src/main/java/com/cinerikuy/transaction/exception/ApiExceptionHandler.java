@@ -22,4 +22,11 @@ public class ApiExceptionHandler {
         ApiExceptionResponse response = new ApiExceptionResponse("DB VALIDATION", ex.getCode(), ex.getMessage(), ex.getHttpStatus().toString());
         return new ResponseEntity(response, ex.getHttpStatus());
     }
+
+    @ExceptionHandler(AdminException.class)
+    public ResponseEntity<ApiExceptionResponse> handleAdminException(AdminException ex) {
+        ApiExceptionResponse response = new ApiExceptionResponse("ADMIN VALIDATION", ex.getCode(), ex.getMessage(), ex.getHttpStatus().toString());
+        return new ResponseEntity(response, ex.getHttpStatus());
+    }
+
 }

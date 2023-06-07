@@ -10,4 +10,4 @@ CREATE TABLE customer (
    enabled BOOLEAN NOT NULL,
    has_voted BOOLEAN NOT NULL
 );
-
+-- TODO .. quitar la columna 'has_voted', de las clases también
