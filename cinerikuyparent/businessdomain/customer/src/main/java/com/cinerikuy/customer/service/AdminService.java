@@ -17,10 +17,8 @@ public class AdminService {
 
     public List<Customer> customerFindAll() {
         List<Customer> list = customerRepository.findAll();
-        if(list == null || list.isEmpty())
-            return null;
-        return list.stream()
-                .collect(Collectors.toList());
+        if(list == null || list.isEmpty()) return null;
+        return list;
     }
 
     public Customer customerFindById(long id) {

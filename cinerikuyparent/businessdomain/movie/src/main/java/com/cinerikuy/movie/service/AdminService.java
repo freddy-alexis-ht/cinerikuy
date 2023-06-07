@@ -35,10 +35,8 @@ public class AdminService {
 
     public List<Movie> movieFindAll() {
         List<Movie> list = movieRepository.findAll();
-        if(list == null || list.isEmpty())
-            return null;
-        return list.stream()
-                .collect(Collectors.toList());
+        if(list == null || list.isEmpty()) return null;
+        return list;
     }
 
     public Movie movieFindById(long id) {
@@ -59,10 +57,8 @@ public class AdminService {
 
     public List<Genre> genreFindAll() {
         List<Genre> list = genreRepository.findAll();
-        if(list == null || list.isEmpty())
-            return null;
-        return list.stream()
-                .collect(Collectors.toList());
+        if(list == null || list.isEmpty()) return null;
+        return list;
     }
 
     public Genre genreFindById(long id) {
@@ -79,10 +75,8 @@ public class AdminService {
 
     public List<Language> languageFindAll() {
         List<Language> list = languageRepository.findAll();
-        if(list == null || list.isEmpty())
-            return null;
-        return list.stream()
-                .collect(Collectors.toList());
+        if(list == null || list.isEmpty()) return null;
+        return list;
     }
 
     public Language languageFindById(long id) {
@@ -99,10 +93,8 @@ public class AdminService {
 
     public List<Situation> situationFindAll() {
         List<Situation> list = situationRepository.findAll();
-        if(list == null || list.isEmpty())
-            return null;
-        return list.stream()
-                .collect(Collectors.toList());
+        if(list == null || list.isEmpty()) return null;
+        return list;
     }
 
     public Situation situationFindById(long id) {
@@ -119,10 +111,8 @@ public class AdminService {
 
     public List<Vote> voteFindAll() {
         List<Vote> list = voteRepository.findAll();
-        if(list == null || list.isEmpty())
-            return null;
-        return list.stream()
-                .collect(Collectors.toList());
+        if(list == null || list.isEmpty()) return null;
+        return list;
     }
 
     public Vote voteFindById(long id) {

@@ -29,6 +29,8 @@ public class AdminController {
 
     /** POR CUESTIONES DE INTEGRIDAD DE LA DATA, EL BORRADO FÍSICO NO ES POSIBLE, SOLO BORRADO LÓGICO */
 
+    // TODO .. no debe devolver el password
+
     @Tag(name = "admin-customer")
     @Operation(summary = "Recupera todos los usuarios.")
     @ApiResponses(value = {

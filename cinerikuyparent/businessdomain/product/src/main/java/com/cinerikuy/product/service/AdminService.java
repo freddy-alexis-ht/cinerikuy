@@ -17,10 +17,8 @@ public class AdminService {
 
     public List<Product> productFindAll() {
         List<Product> list = productRepository.findAll();
-        if(list == null || list.isEmpty())
-            return null;
-        return list.stream()
-                .collect(Collectors.toList());
+        if(list == null || list.isEmpty()) return null;
+        return list;
     }
 
     public Product productFindById(long id) {

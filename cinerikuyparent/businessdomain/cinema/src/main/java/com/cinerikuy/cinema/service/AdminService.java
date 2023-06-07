@@ -23,10 +23,8 @@ public class AdminService {
 
     public List<Cinema> cinemaFindAll() {
         List<Cinema> list = cinemaRepository.findAll();
-        if(list == null || list.isEmpty())
-            return null;
-        return list.stream()
-                .collect(Collectors.toList());
+        if(list == null || list.isEmpty()) return null;
+        return list;
     }
 
     public Cinema cinemaFindById(long id) {
@@ -47,10 +45,8 @@ public class AdminService {
 
     public List<City> cityFindAll() {
         List<City> list = cityRepository.findAll();
-        if(list == null || list.isEmpty())
-            return null;
-        return list.stream()
-                .collect(Collectors.toList());
+        if(list == null || list.isEmpty()) return null;
+        return list;
     }
 
     public City cityFindById(long id) {
