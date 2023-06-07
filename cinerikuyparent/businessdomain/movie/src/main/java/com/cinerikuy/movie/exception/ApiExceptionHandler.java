@@ -31,7 +31,7 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(AdminException.class)
     public ResponseEntity<ApiExceptionResponse> handleAdminException(AdminException ex) {
-        ApiExceptionResponse response = new ApiExceptionResponse("[ADMIN] CITY VALIDATION", ex.getCode(), ex.getMessage(), ex.getHttpStatus().toString());
+        ApiExceptionResponse response = new ApiExceptionResponse("ADMIN VALIDATION", ex.getCode(), ex.getMessage(), ex.getHttpStatus().toString());
         return new ResponseEntity(response, ex.getHttpStatus());
     }
 
