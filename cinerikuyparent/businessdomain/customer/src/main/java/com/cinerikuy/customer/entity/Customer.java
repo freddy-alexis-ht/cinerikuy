@@ -2,11 +2,15 @@ package com.cinerikuy.customer.entity;
 
 import lombok.Data;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Data
+@Table(name = "cr_customer")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,5 +23,4 @@ public class Customer {
     private String cellphone;
     private String role;
     private boolean enabled;
-    private boolean hasVoted;
 }

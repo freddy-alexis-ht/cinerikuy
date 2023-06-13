@@ -9,8 +9,7 @@ import org.mapstruct.Mappings;
 public interface CustomerRequestMapper {
     @Mappings({
             @Mapping(target = "role", constant = "customer"),
-            @Mapping(target = "enabled", constant = "true"),
-            @Mapping(target = "hasVoted", constant = "true")
+            @Mapping(target = "enabled", constant = "true")
     })
     Customer CustomerSignInRequestToCustomer(CustomerSignInRequest source);
 

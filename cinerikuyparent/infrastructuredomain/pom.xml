@@ -5,13 +5,13 @@
     <parent>
         <artifactId>cinerikuyparent</artifactId>
         <groupId>com.cinerikuy</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>2.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.cinerikuy</groupId>
     <artifactId>infrastructuredomain</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
     <modules>
         <module>eurekaserver</module>
         <module>apigateway</module>

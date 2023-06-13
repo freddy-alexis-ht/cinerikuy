@@ -11,29 +11,32 @@ spring:
     name: api-gateway
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true
       routes:
         - id: customer-service
           uri: lb://businessdomain-customer
           predicates:
-            - Path=/**
+            - Path=/customers/**, /admin/customers/**
         - id: cinema-service
           uri: lb://businessdomain-cinema
           predicates:
-            - Path=/**
+            - Path=/cinemas/**, /admin/cinemas/**
         - id: movie-service
           uri: lb://businessdomain-movie
           predicates:
-            - Path=/**
+            - Path=/movies/**, /admin/movies/**
         - id: transaction-service
           uri: lb://businessdomain-transaction
           predicates:
-            - Path=/**
+            - Path=/transactions/**, /admin/transactions/**
         - id: product-service
           uri: lb://businessdomain-product
           predicates:
-            - Path=/**
+            - Path=/products/**, /admin/products/**
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_SERVER:http://localhost:9090/eureka}
+      defaultZone: ${EUREKA_SERVER:http://localhost:9091/eureka}
