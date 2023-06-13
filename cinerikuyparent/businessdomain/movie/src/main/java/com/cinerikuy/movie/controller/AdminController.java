@@ -238,7 +238,7 @@ public class AdminController {
         return ResponseEntity.ok(vote);
     }
 
-    @Tag(name = "admin-vote")
+    @Tag(name = "admin-vote") // TODO .. el admin no debería poder guardar o actualizar
     @Operation(summary = "Guarda/Actualiza el estado de voto enviado.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Estado de voto guardado/actualizado con éxito", content = @Content),

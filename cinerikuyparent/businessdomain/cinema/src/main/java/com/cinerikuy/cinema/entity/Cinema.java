@@ -7,9 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Data
+@Table(name = "cr_cinema")
 public class Cinema {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
