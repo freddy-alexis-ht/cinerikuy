@@ -102,7 +102,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Todas las ciudades recuperadas con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "No hay ciudades en la base de datos", content = @Content)})
-    @GetMapping("/cities")
+    @GetMapping("/cinemas/cities")
     public ResponseEntity<List<City>> cityFindAll() throws AdminException {
         List<City> list = adminService.cityFindAll();
         if(list == null)
@@ -115,7 +115,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ciudad recuperada con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "No existe ciudad con ese 'id'", content = @Content)})
-    @GetMapping("/cities/{id}")
+    @GetMapping("/cinemas/cities/{id}")
     public ResponseEntity<City> cityFindById(@PathVariable long id) throws AdminException {
         City city = adminService.cityFindById(id);
         if(city == null)
@@ -128,7 +128,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ciudad guardada/actualizada con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "Error al momento de guardar/actualizar la ciudad enviada", content = @Content)})
-    @PostMapping("/cities")
+    @PostMapping("/cinemas/cities")
     public ResponseEntity<City> citySaveUpdate(@RequestBody City input) throws AdminException {
         String cityNameSend = input.getCity();
         List<City> cities = this.cityFindAll().getBody();
