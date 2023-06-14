@@ -82,7 +82,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Todos los géneros recuperados con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "No hay géneros en la base de datos", content = @Content)})
-    @GetMapping("/genres")
+    @GetMapping("/movies/genres")
     public ResponseEntity<List<Genre>> genreFindAll() throws AdminException {
         List<Genre> list = adminService.genreFindAll();
         if(list == null)
@@ -95,7 +95,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Género recuperado con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "No existe género con ese 'id'", content = @Content)})
-    @GetMapping("/genres/{id}")
+    @GetMapping("/movies/genres/{id}")
     public ResponseEntity<Genre> genreFindById(@PathVariable long id) throws AdminException {
         Genre genre = adminService.genreFindById(id);
         if(genre == null)
@@ -108,7 +108,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Género guardado/actualizado con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "Error al momento de guardar/actualizar el género enviado", content = @Content)})
-    @PostMapping("/genres")
+    @PostMapping("/movies/genres")
     public ResponseEntity<Genre> genreSaveUpdate(@RequestBody Genre input) throws AdminException {
         String genreNameSend = input.getGenre();
         List<Genre> genres = this.genreFindAll().getBody();
@@ -127,7 +127,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Todos los idiomas recuperados con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "No hay idiomas en la base de datos", content = @Content)})
-    @GetMapping("/languages")
+    @GetMapping("/movies/languages")
     public ResponseEntity<List<Language>> languageFindAll() throws AdminException {
         List<Language> list = adminService.languageFindAll();
         if(list == null)
@@ -140,7 +140,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Idioma recuperado con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "No existe idioma con ese 'id'", content = @Content)})
-    @GetMapping("/languages/{id}")
+    @GetMapping("/movies/languages/{id}")
     public ResponseEntity<Language> languageFindById(@PathVariable long id) throws AdminException {
         Language language = adminService.languageFindById(id);
         if(language == null)
@@ -153,7 +153,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Idioma guardado/actualizado con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "Error al momento de guardar/actualizar el idioma enviado", content = @Content)})
-    @PostMapping("/languages")
+    @PostMapping("/movies/languages")
     public ResponseEntity<Language> languageSaveUpdate(@RequestBody Language input) throws AdminException {
         String languageNameSend = input.getLanguage();
         List<Language> languages = this.languageFindAll().getBody();
@@ -172,7 +172,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Todos los registros de situaciones recuperados con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "No hay registro de situación en la base de datos", content = @Content)})
-    @GetMapping("/situations")
+    @GetMapping("/movies/situations")
     public ResponseEntity<List<Situation>> situationFindAll() throws AdminException {
         List<Situation> list = adminService.situationFindAll();
         if(list == null)
@@ -185,7 +185,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Registro de situación recuperado con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "No existe registro de situación con ese 'id'", content = @Content)})
-    @GetMapping("/situations/{id}")
+    @GetMapping("/movies/situations/{id}")
     public ResponseEntity<Situation> situationFindById(@PathVariable long id) throws AdminException {
         Situation situation = adminService.situationFindById(id);
         if(situation == null)
@@ -198,7 +198,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Registro de situación guardado/actualizado con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "Error al momento de guardar/actualizar la situación enviada", content = @Content)})
-    @PostMapping("/situations")
+    @PostMapping("/movies/situations")
     public ResponseEntity<Situation> situationSaveUpdate(@RequestBody Situation input) throws AdminException {
         String situationNameSend = input.getSituation();
         List<Situation> situations = this.situationFindAll().getBody();
@@ -217,7 +217,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Todos los estados de votos recuperados con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "No hay estado de voto en la base de datos", content = @Content)})
-    @GetMapping("/vote-states")
+    @GetMapping("/movies/votes")
     public ResponseEntity<List<Vote>> voteFindAll() throws AdminException {
         List<Vote> list = adminService.voteFindAll();
         if(list == null)
@@ -230,7 +230,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Estado de voto recuperado con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "No existe estado de voto con ese 'id'", content = @Content)})
-    @GetMapping("/vote-states/{id}")
+    @GetMapping("/movies/votes/{id}")
     public ResponseEntity<Vote> voteFindById(@PathVariable long id) throws AdminException {
         Vote vote = adminService.voteFindById(id);
         if(vote == null)
@@ -243,7 +243,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Estado de voto guardado/actualizado con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "Error al momento de guardar/actualizar el estado de voto enviado", content = @Content)})
-    @PostMapping("/vote-states")
+    @PostMapping("/movies/votes")
     public ResponseEntity<Vote> voteSaveUpdate(@RequestBody Vote input) throws AdminException {
         String voteNameSend = input.getVote();
         List<Vote> votes = this.voteFindAll().getBody();

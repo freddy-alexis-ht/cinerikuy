@@ -71,7 +71,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Todos los productos de las transacciones recuperados con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "No hay productos en las transacciones en la base de datos", content = @Content)})
-    @GetMapping("/productsData")
+    @GetMapping("/transactions/productsData")
     public ResponseEntity<List<ProductData>> productDataFindAll() throws AdminException {
         List<ProductData> list = adminService.productDataFindAll();
         if(list == null)
@@ -84,7 +84,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Producto recuperado con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "No existe producto con ese 'id'", content = @Content)})
-    @GetMapping("/productsData/id/{id}")
+    @GetMapping("/transactions/productsData/id/{id}")
     public ResponseEntity<ProductData> productDataFindById(@PathVariable long id) throws AdminException {
         ProductData productData = adminService.productDataFindById(id);
         if(productData == null)
@@ -97,7 +97,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Todos los productos de 1 transacción recuperados con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "No hay productos en esa transacción en la base de datos", content = @Content)})
-    @GetMapping("/productsData/transactionId/{transactionId}")
+    @GetMapping("/transactions/productsData/transactionId/{transactionId}")
     public ResponseEntity<List<ProductData>> productDataFindByTransactionId(@PathVariable long transactionId) throws AdminException {
         List<ProductData> list = adminService.productDataFindByTransactionId(transactionId);
         if(list == null)
@@ -112,7 +112,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Todas las compras recuperadas con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "No hay compras en la base de datos", content = @Content)})
-    @GetMapping("/billings")
+    @GetMapping("/transactions/billings")
     public ResponseEntity<List<Billing>> billingFindAll() throws AdminException {
         List<Billing> list = adminService.billingFindAll();
         if(list == null)
@@ -125,7 +125,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Compra recuperada con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "No existe compra con ese 'id'", content = @Content)})
-    @GetMapping("/billings/id/{id}")
+    @GetMapping("/transactions/billings/id/{id}")
     public ResponseEntity<Billing> billingFindById(@PathVariable long id) throws AdminException {
         Billing billing = adminService.billingFindById(id);
         if(billing == null)
@@ -138,10 +138,9 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Todas las compras de 1 usuario recuperadas con éxito", content = @Content),
             @ApiResponse(responseCode = "412", description = "El usuario no ha hecho compras", content = @Content)})
-    @GetMapping("/billings/username/{username}")
+    @GetMapping("/transactions/billings/username/{username}")
     public ResponseEntity<List<TransactionBillingResponse>> billingFindByUsername(@PathVariable String username) throws AdminException, BusinessRuleException {
         return transactionController.findBillings(username);
     }
-
 
 }
