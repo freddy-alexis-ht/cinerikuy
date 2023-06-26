@@ -1,0 +1,23 @@
+spring:
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server
+      failFast: true
+      name: config-client
+      profile: development # development/production
+      username: domingo
+      password: domingo
+      retry:
+        max-attempts: 1
+        max-interval: 1000
+  security:
+    user:
+      name: domingo
+      password: domingo
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER:http://localhost:9091/eureka}
