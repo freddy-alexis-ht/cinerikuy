@@ -8,7 +8,7 @@ import org.mapstruct.Mappings;
 @Mapper(componentModel = "spring")
 public interface CustomerRequestMapper {
     @Mappings({
-            @Mapping(target = "role", constant = "customer"),
+//            @Mapping(target = "role", constant = "customer"),
             @Mapping(target = "enabled", constant = "true")
     })
     Customer CustomerSignInRequestToCustomer(CustomerSignInRequest source);

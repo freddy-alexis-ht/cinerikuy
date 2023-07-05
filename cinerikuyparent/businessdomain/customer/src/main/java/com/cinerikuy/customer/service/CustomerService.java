@@ -17,8 +17,8 @@ public class CustomerService {
     private PasswordEncoder passwordEncoder;
 
     public String post(Customer customer) {
-        String encodedPassword = this.passwordEncoder.encode(customer.getPassword());
-        customer.setPassword(encodedPassword);
+//        String encodedPassword = this.passwordEncoder.encode(customer.getPassword());
+//        customer.setPassword(encodedPassword);
         customerRepository.save(customer);
         return customer.getUsername();
     }

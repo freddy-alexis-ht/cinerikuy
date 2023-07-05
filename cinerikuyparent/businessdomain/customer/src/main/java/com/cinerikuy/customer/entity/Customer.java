@@ -16,11 +16,11 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String username;
-    private String password;
+//    private String password;
     private String firstName;
     private String lastName;
     private String dni;
     private String cellphone;
-    private String role;
+//    private String role;
     private boolean enabled;
 }

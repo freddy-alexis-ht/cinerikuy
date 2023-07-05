@@ -33,7 +33,7 @@ public class CustomerController {
             @ApiResponse(responseCode = "200", description = "Account created successfully", content = @Content),
             @ApiResponse(responseCode = "412", description = "Invalid data supplied", content = @Content)})
     @PostMapping("/signin")
-    public ResponseEntity<CustomerResponse> signIn(@RequestBody CustomerSignInRequest request) throws BusinessRuleException {
+    public ResponseEntity<CustomerResponse> signIn(CustomerSignInRequest request) throws BusinessRuleException {
         // Validates username and dni are not repeated
         // Assumes other fields were validated in frontend
         if(!customerService.isNewUsername(request.getUsername()))
@@ -53,25 +53,25 @@ public class CustomerController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "Login to an existing account.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Login successfully", content = @Content),
-            @ApiResponse(responseCode = "412", description = "Invalid data supplied", content = @Content)})
-    @PostMapping("/login")
-    public ResponseEntity<CustomerResponse> login(@RequestBody CustomerLoginRequest request) throws BusinessRuleException {
-        // Front validates values are not empty and that they are valid
-        // Validates username exists in DB
-        Customer customer = customerService.findByUsername(request.getUsername());
-        if(customer == null)
-            throw new BusinessRuleException("003", "Credenciales incorrectas.", HttpStatus.PRECONDITION_FAILED);
-        // Validates passwords are the same
-        boolean areEqual = customerService.comparePasswords(request.getPassword(), customer.getPassword());
-        if(!areEqual)
-            throw new BusinessRuleException("004", "Credenciales incorrectas.", HttpStatus.PRECONDITION_FAILED);
-        CustomerResponse response = new CustomerResponse();
-        response.setUsername(request.getUsername());
-        return ResponseEntity.ok(response);
-    }
+//    @Operation(summary = "Login to an existing account.")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Login successfully", content = @Content),
+//            @ApiResponse(responseCode = "412", description = "Invalid data supplied", content = @Content)})
+//    @PostMapping("/login")
+//    public ResponseEntity<CustomerResponse> login(@RequestBody CustomerLoginRequest request) throws BusinessRuleException {
+//        // Front validates values are not empty and that they are valid
+//        // Validates username exists in DB
+//        Customer customer = customerService.findByUsername(request.getUsername());
+//        if(customer == null)
+//            throw new BusinessRuleException("003", "Credenciales incorrectas.", HttpStatus.PRECONDITION_FAILED);
+//        // Validates passwords are the same
+//        boolean areEqual = customerService.comparePasswords(request.getPassword(), customer.getPassword());
+//        if(!areEqual)
+//            throw new BusinessRuleException("004", "Credenciales incorrectas.", HttpStatus.PRECONDITION_FAILED);
+//        CustomerResponse response = new CustomerResponse();
+//        response.setUsername(request.getUsername());
+//        return ResponseEntity.ok(response);
+//    }
 
     @Operation(summary = "Get customer by username.")
     @ApiResponses(value = {
