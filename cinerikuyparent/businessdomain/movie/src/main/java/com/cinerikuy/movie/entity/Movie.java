@@ -28,6 +28,7 @@ public class Movie {
     private String name;
     private String duration;
     private String imageUrl;
+    private String imageCover;
     private String trailerUrl;
     private String synopsis;
     private boolean peruvian;
