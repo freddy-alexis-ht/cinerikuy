@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ProductResponseMapper {
 
-    @Mapping(source = "price", target = "price", numberFormat = "S/ #.00")
+    @Mapping(source = "price", target = "price")
     ProductResponse ProductToProductResponse(Product product);
 
     List<ProductResponse> ProductListToProductResponseList(List<Product> source);

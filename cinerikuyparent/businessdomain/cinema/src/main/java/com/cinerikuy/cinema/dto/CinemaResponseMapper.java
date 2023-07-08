@@ -13,7 +13,7 @@ public interface CinemaResponseMapper {
     // MAPPERS FOR ALL CINEMAS
     @Mappings({
             @Mapping(source = "city.city", target = "city"),
-            @Mapping(source = "ticketPrice", target = "ticketPrice", numberFormat = "S/ #.00")
+            @Mapping(source = "ticketPrice", target = "ticketPrice")
     })
 
     CinemaResponse CinemaToCinemaResponse(Cinema cinema);
