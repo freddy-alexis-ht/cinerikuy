@@ -19,6 +19,8 @@ public class MovieDetailsResponse {
     private String imageUrl;
     @Schema(name = "trailerUrl", example = "http://xxx", description = "Url of the trailer-movie-storage")
     private String trailerUrl;
+    @Schema(name = "imageCover", example = "http://xxx", description = "Url of the image-movie-cover")
+    private String imageCover;
     @Schema(name = "synopsis", example = "Resumen de película", description = "Movie synopsis (max. 250 chars)")
     private String synopsis;
     @Schema(name = "peruvian", example = "true|false", description = "Is the movie peruvian or not")

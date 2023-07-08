@@ -24,6 +24,7 @@ CREATE TABLE cr_movie (
    name VARCHAR NOT NULL,
    duration VARCHAR NOT NULL,
    image_url VARCHAR NOT NULL,
+   image_cover VARCHAR NOT NULL,
    trailer_url VARCHAR NOT NULL,
    synopsis VARCHAR NOT NULL,
    peruvian BOOLEAN NOT NULL,

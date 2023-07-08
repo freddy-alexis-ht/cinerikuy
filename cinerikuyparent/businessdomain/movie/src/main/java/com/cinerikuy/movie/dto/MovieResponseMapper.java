@@ -27,7 +27,8 @@ public interface MovieResponseMapper {
             @Mapping(source = "genre.genre", target = "genre"),
             @Mapping(source = "language.language", target = "language"),
             @Mapping(source = "situation.situation", target = "situation"),
-            @Mapping(source = "vote.vote", target = "vote")
+            @Mapping(source = "vote.vote", target = "vote"),
+            @Mapping(source = "imageCover", target = "imageCover")
     })
     MovieDetailsResponse MovieToMovieDetailsResponse(Movie source);
 

@@ -6,7 +6,7 @@ spring:
         service-id: config-server
       failFast: true
       name: config-client
-      profile: production # development/production
+      profile: development # development/production
       username: domingo
       password: domingo
       retry:
