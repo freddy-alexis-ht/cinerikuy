@@ -6,7 +6,8 @@ services:
   ##########################################################################
   registry-discovery:
     container_name: infra-eureka-server
-    image: cinerikuy/ms-docker-eurekaserver:2.0.0-SNAPSHOT
+    # image: cinerikuy/ms-docker-eurekaserver:2.0.0-SNAPSHOT
+    image: freddyalexis/cinerikuy-eureka:2.0.0
     ports:
       - 9092:9091
     environment: # min and max use of memory
@@ -19,7 +20,8 @@ services:
   ##########################################################################
   configuration:
     container_name: infra-config-server
-    image: cinerikuy/ms-docker-configserver:2.0.0-SNAPSHOT
+    # image: cinerikuy/ms-docker-configserver:2.0.0-SNAPSHOT
+    image: freddyalexis/cinerikuy-config:2.0.0
     volumes:
       # local repository: /host/path:/container/path (use ./ for relative path)
       - ./infrastructuredomain/configserver/src/main/resources/config-data:/tmp/config-data
@@ -41,7 +43,8 @@ services:
   ##########################################################################
   apigateway:
     container_name: infra-apigateway
-    image: cinerikuy/ms-docker-apigateway:2.0.0-SNAPSHOT
+    #image: cinerikuy/ms-docker-apigateway:2.0.0-SNAPSHOT
+    image: freddyalexis/cinerikuy-apigateway:2.0.0
     environment:
       - JAVA_OPTS=
         -Xms256M
@@ -58,7 +61,8 @@ services:
   ##########################################################################
   cinema:
     container_name: domain-cinema
-    image: cinerikuy/ms-docker-cinema:2.0.0-SNAPSHOT
+    #image: cinerikuy/ms-docker-cinema:2.0.0-SNAPSHOT
+    image: freddyalexis/cinerikuy-cinema:2.0.0
     environment:
       - JAVA_OPTS=
         -Xms256M
@@ -75,7 +79,8 @@ services:
   ##########################################################################
   customer:
     container_name: domain-customer
-    image: cinerikuy/ms-docker-customer:2.0.0-SNAPSHOT
+    # image: cinerikuy/ms-docker-customer:2.0.0-SNAPSHOT
+    image: freddyalexis/cinerikuy-customer:2.0.0
     environment:
       - JAVA_OPTS=
         -Xms256M
@@ -91,7 +96,8 @@ services:
   ##########################################################################
   movie:
     container_name: domain-movie
-    image: cinerikuy/ms-docker-movie:2.0.0-SNAPSHOT
+    # image: cinerikuy/ms-docker-movie:2.0.0-SNAPSHOT
+    image: freddyalexis/cinerikuy-movie:2.0.0
     environment:
       - JAVA_OPTS=
         -Xms256M
@@ -107,7 +113,8 @@ services:
   ##########################################################################
   product:
     container_name: domain-product
-    image: cinerikuy/ms-docker-product:2.0.0-SNAPSHOT
+    #image: cinerikuy/ms-docker-product:2.0.0-SNAPSHOT
+    image: freddyalexis/cinerikuy-product:2.0.0
     environment:
       - JAVA_OPTS=
         -Xms256M
@@ -123,7 +130,8 @@ services:
   ##########################################################################
   transactions:
     container_name: domain-transaction
-    image: cinerikuy/ms-docker-transaction:2.0.0-SNAPSHOT
+    #image: cinerikuy/ms-docker-transaction:2.0.0-SNAPSHOT
+    image: freddyalexis/cinerikuy-transaction:2.0.0
     environment:
       - JAVA_OPTS=
         -Xms256M
