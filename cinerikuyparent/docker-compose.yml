@@ -1,0 +1,169 @@
+version: '3.8'
+services:
+
+  ##########################################################################
+  # eureka-server
+  ##########################################################################
+  registry-discovery:
+    container_name: infra-eureka-server
+    image: cinerikuy/ms-docker-eurekaserver:2.0.0-SNAPSHOT
+    ports:
+      - 9092:9091
+    environment: # min and max use of memory
+      - JAVA_OPTS=
+        -Xms256M
+        -Xmx256M
+
+  ##########################################################################
+  # config-server
+  ##########################################################################
+  configuration:
+    container_name: infra-config-server
+    image: cinerikuy/ms-docker-configserver:2.0.0-SNAPSHOT
+    volumes:
+      # local repository: /host/path:/container/path (use ./ for relative path)
+      - ./infrastructuredomain/configserver/src/main/resources/config-data:/tmp/config-data
+    environment:
+      # DEUREKA_SERVER: where to find the registry-discovery server
+      - JAVA_OPTS=
+        -Xms256M
+        -Xmx256M
+        -DEUREKA_SERVER=http://registry-discovery:9091/eureka/
+        -DLOCAL_REPO=/tmp/config-data
+      #-Dspring.cloud.config.server.native.searchLocations=/var/config-data
+    depends_on:
+      - registry-discovery
+    ports:
+      - 9096:9096
+
+  ##########################################################################
+  #apigateway service
+  ##########################################################################
+  apigateway:
+    container_name: infra-apigateway
+    image: cinerikuy/ms-docker-apigateway:2.0.0-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -Xms256M
+        -Xmx256M
+        -DEUREKA_SERVER=http://registry-discovery:9091/eureka/
+        -Dserver.port=8082
+    depends_on:
+      - registry-discovery
+    ports:
+      - 8082:8082
+
+  ##########################################################################
+  # ms-cinema
+  ##########################################################################
+  cinema:
+    container_name: domain-cinema
+    image: cinerikuy/ms-docker-cinema:2.0.0-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -Xms256M
+        -Xmx256M
+        -DEUREKA_SERVER=http://registry-discovery:9091/eureka/
+        -Dspring.cloud.config.profile=production
+#        -Dspring.profiles.active=production
+    depends_on:
+      - registry-discovery
+      - configuration
+
+  ##########################################################################
+  # ms-customer
+  ##########################################################################
+  customer:
+    container_name: domain-customer
+    image: cinerikuy/ms-docker-customer:2.0.0-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -Xms256M
+        -Xmx256M
+        -DEUREKA_SERVER=http://registry-discovery:9091/eureka/
+        -Dspring.cloud.config.profile=production
+    depends_on:
+      - registry-discovery
+      - configuration
+
+  ##########################################################################
+  # ms-movie
+  ##########################################################################
+  movie:
+    container_name: domain-movie
+    image: cinerikuy/ms-docker-movie:2.0.0-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -Xms256M
+        -Xmx256M
+        -DEUREKA_SERVER=http://registry-discovery:9091/eureka/
+        -Dspring.cloud.config.profile=production
+    depends_on:
+      - registry-discovery
+      - configuration
+
+  ##########################################################################
+  # ms-product
+  ##########################################################################
+  product:
+    container_name: domain-product
+    image: cinerikuy/ms-docker-product:2.0.0-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -Xms256M
+        -Xmx256M
+        -DEUREKA_SERVER=http://registry-discovery:9091/eureka/
+        -Dspring.cloud.config.profile=production
+    depends_on:
+      - registry-discovery
+      - configuration
+
+  ##########################################################################
+  # ms-transaction
+  ##########################################################################
+  transactions:
+    container_name: domain-transaction
+    image: cinerikuy/ms-docker-transaction:2.0.0-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -Xms256M
+        -Xmx256M
+        -DEUREKA_SERVER=http://registry-discovery:9091/eureka/
+        -Dspring.cloud.config.profile=production
+    depends_on:
+      - registry-discovery
+      - configuration
+
+  ##########################################################################
+  # database service
+  ##########################################################################
+  postgres_db2:
+    container_name: postgres_db2
+    image: postgres:14.7
+    ports:
+      - 5433:5432
+    volumes:
+      # allow *.sql, *.sql.gz, or *.sh and is executed only if data directory is empty
+      - ./dbfiles:/docker-entrypoint-initdb.d
+      - /var/lib/postgres_data_04:/var/lib/postgresql/data
+    environment:
+      # default postgres super-user
+      POSTGRES_USER: postgres
+      # default password for postgres super-user (it is the only env-var required for postgres image)
+      POSTGRES_PASSWORD: root
+      # main database: if name is not set, the name of super-user is used
+      POSTGRES_DB: cinerikuy
+
+  ##########################################################################
+  # pgadmin service
+  ##########################################################################
+  pgadmin4:
+    image: dpage/pgadmin4
+    restart: "no"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "domingo"
+    ports:
+      - 9098:80
+    depends_on:
+      - postgres_db2
