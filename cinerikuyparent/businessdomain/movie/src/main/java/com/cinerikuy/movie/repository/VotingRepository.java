@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface VotingRepository extends JpaRepository<Voting, VotingPK> {
     @Transactional
     @Modifying
-    @Query(value = "insert into voting (movie_id, username) values (:movie_id, :username)",
+    @Query(value = "insert into cr_voting (movie_id, username) values (:movie_id, :username)",
             nativeQuery = true)
     void insertVoting(@Param("movie_id") Long movieId, @Param("username") String username);
 
