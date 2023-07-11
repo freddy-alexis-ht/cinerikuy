@@ -61,6 +61,19 @@ public class MovieController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Get 'Coming soon' movies.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Coming soon movie list returned", content = @Content),
+            @ApiResponse(responseCode = "412", description = "There are no coming soon movies", content = @Content)})
+    @GetMapping("/coming-soon")
+    public ResponseEntity<List<MovieBillboardResponse>> getComingSoon() throws BillboardException {
+        List<Movie> list = movieService.getComingSoon();
+        if(list == null || list.isEmpty())
+            throw new BillboardException("M001", "No hay próximos estrenos.", HttpStatus.PRECONDITION_FAILED);
+        List<MovieBillboardResponse> response = movResMapper.MovieListToMovieBillboardResponseList(list);
+        return ResponseEntity.ok(response);
+    }
+
     @Operation(summary = "Get movie details by movie-code.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Movie details returned", content = @Content),
@@ -94,7 +107,7 @@ public class MovieController {
     public ResponseEntity<List<VotingListResponse>> findMoviesInVoting(@PathVariable String username) throws MovieDetailsException {
         Voting voting = votingService.findByUsername(username);
 
-        List<Movie> movies = movieService.peruvianMovies();
+        List<Movie> movies = movieService.getPeruvianMovies();
         if(movies == null || movies.isEmpty())
             throw new MovieDetailsException("M005", "No hay películas peruanas en votación.", HttpStatus.PRECONDITION_FAILED);
         if(voting == null) {
