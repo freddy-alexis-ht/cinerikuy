@@ -259,7 +259,7 @@ VALUES ('M022', 'Magallanes (2015)', '1hrs 49min', 'https://pics.filmaffinity.co
 
 
 INSERT INTO cr_voting (movie_id, username)
-VALUES (2, 'Domingo7');
+VALUES (15, 'Domingo7');
 
 INSERT INTO cr_transaction (transaction_code, paid, customer_username, customer_dni, customer_name, cinema_code, cinema_name, cinema_location, cinema_ticket_price, movie_code, movie_name, movie_schedule, movie_language, movie_number_of_tickets)
 VALUES ('TR1', 't', 'Domingo7', '12345678', 'Domingo Negro', 'C01', 'CR Centro Cívico', 'Av. Arequipa 1212, Breña, Lima', 12, 'M001', 'Domingo 007', '5:30', 'Español', 3);
