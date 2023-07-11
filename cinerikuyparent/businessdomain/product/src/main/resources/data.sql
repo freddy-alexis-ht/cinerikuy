@@ -1,14 +1,14 @@
 INSERT INTO cr_product (product_code, name, image_url, price, enabled)
-VALUES ('P01', 'Popcorn Pequeño', 'https://media.informabtl.com/wp-content/uploads/2017/04/bigstock-Red-and-white-popcorn-box-isol-26091221-e1493245264752.jpg', 7, 't');
+VALUES ('P01', 'Popcorn Pequeño', 'https://firebasestorage.googleapis.com/v0/b/appwallpaper-75b5c.appspot.com/o/product%2FPop_Corn_peque%C3%B1o.jpg?alt=media&token=a9de845d-8ac0-481b-b6f6-b0056344c22a', 7, 't');
 INSERT INTO cr_product (product_code, name, image_url, price, enabled)
-VALUES ('P02', 'Popcorn Mediano', 'https://s3.cine3.com/2020/06/popcorn.jpg', 10, 't');
+VALUES ('P02', 'https://firebasestorage.googleapis.com/v0/b/appwallpaper-75b5c.appspot.com/o/product%2Fpopcorn_mediano.jpg?alt=media&token=ca89a333-6285-435e-afab-94e2c14c5d5a', 10, 't');
 INSERT INTO cr_product (product_code, name, image_url, price, enabled)
-VALUES ('P03', 'Popcorn Grande', 'https://media.mykaramelli.com/galeria/articulos/cubo-palomitas-rojo_5628_1.jpg', 12.5, 't');
+VALUES ('P03', 'Popcorn Grande', 'https://firebasestorage.googleapis.com/v0/b/appwallpaper-75b5c.appspot.com/o/product%2Fpopcorn_grande.jpg?alt=media&token=6149a834-00d4-4230-ad0f-f94329183a9a', 12.5, 't');
 INSERT INTO cr_product (product_code, name, image_url, price, enabled)
-VALUES ('P05', 'Bebida Pequeña (8oz)', 'https://media.istockphoto.com/id/964608132/es/vector/cristal-de-papel-3d-aislado-vaso-cart%C3%B3n-realista-ilustraci%C3%B3n-de-cola-red-vector.jpg?s=612x612&w=0&k=20&c=aR2n4ZEdwOEBh0l_lbtEktHJleYzlVUxbLYGCShvROE=', 6, 't');
+VALUES ('P05', 'Bebida Pequeña (8oz)', 'https://firebasestorage.googleapis.com/v0/b/appwallpaper-75b5c.appspot.com/o/product%2Fbebida_peque%C3%B1a.jpg?alt=media&token=e1eea5f6-c051-4b78-8458-c62a5a847fe8', 6, 't');
 INSERT INTO cr_product (product_code, name, image_url, price, enabled)
-VALUES ('P06', 'Bebida Mediana (10oz)', 'https://st2.depositphotos.com/2757384/12405/i/950/depositphotos_124059350-stock-photo-coca-cola-paper-cup-coca.jpg', 9, 't');
+VALUES ('P06', 'Bebida Mediana (10oz)', 'https://firebasestorage.googleapis.com/v0/b/appwallpaper-75b5c.appspot.com/o/product%2Fbebida_mediana.jpg?alt=media&token=bb872efb-2f2c-4dad-89e5-6adeb59011b6', 9, 't');
 INSERT INTO cr_product (product_code, name, image_url, price, enabled)
-VALUES ('P07', 'Bebida Grande (12oz)', 'https://st2.depositphotos.com/1081688/5184/i/950/depositphotos_51848395-stock-photo-coca-cola-with-ice-cubes.jpg', 10.5, 't');
+VALUES ('P07', 'Bebida Grande (12oz)', 'https://firebasestorage.googleapis.com/v0/b/appwallpaper-75b5c.appspot.com/o/product%2Fbebida_grande.jpg?alt=media&token=6e23b7cd-b8e7-4e40-aa80-56f64b3cf234', 10.5, 't');
 INSERT INTO cr_product (product_code, name, image_url, price, enabled)
-VALUES ('P08', 'Hot-Dog', 'https://cdn.apis.cineplanet.com.pe/CDN/media/entity/get/ItemGraphic/179?allowPlaceHolder=true', 6, 'f');
+VALUES ('P08', 'Hot-Dog', 'https://firebasestorage.googleapis.com/v0/b/appwallpaper-75b5c.appspot.com/o/product%2Fhot_dog.jpg?alt=media&token=f03ade2a-55c6-4ae6-82df-baef25f43de5', 6, 'f');
