@@ -72,4 +72,4 @@ VALUES ('M022', 'Magallanes (2015)', '1hrs 49min', 'https://pics.filmaffinity.co
 
 
 INSERT INTO cr_voting (movie_id, username)
-VALUES (2, 'Domingo7');
+VALUES (15, 'Domingo7');

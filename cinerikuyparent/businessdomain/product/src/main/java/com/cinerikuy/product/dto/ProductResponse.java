@@ -1,9 +1,13 @@
 package com.cinerikuy.product.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Schema(name = "ProductResponse", description = "Object that returns Product information.")
 public class ProductResponse {
 
