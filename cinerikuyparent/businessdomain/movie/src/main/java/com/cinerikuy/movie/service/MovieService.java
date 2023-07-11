@@ -31,6 +31,13 @@ public class MovieService {
                 .collect(Collectors.toList());
     }
 
+    public List<Movie> getComingSoon() {
+        return movieRepository.findAll().stream()
+                .filter(m -> m.isEnabled())
+                .filter(m -> m.getSituation().getSituation().equals("Próximo"))
+                .collect(Collectors.toList());
+    }
+
     public Movie getMovieDetails(String movieCode) {
         Movie movie = this.findByMovieCode(movieCode);
         if(movie == null) return null;
@@ -44,7 +51,7 @@ public class MovieService {
         return movie.get();
     }
 
-    public List<Movie> peruvianMovies() {
+    public List<Movie> getPeruvianMovies() {
         List<Movie> movies = movieRepository.findAll();
         if(movies == null || movies.isEmpty()) return null;
         List<Movie> response =  movies.stream()
