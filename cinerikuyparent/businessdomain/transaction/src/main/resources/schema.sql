@@ -1,6 +1,6 @@
 CREATE TABLE cr_transaction (
    id INT AUTO_INCREMENT PRIMARY KEY,
-   transaction_code VARCHAR UNIQUE,
+   transaction_code VARCHAR(20) UNIQUE,
    paid BOOLEAN NOT NULL,
    customer_username VARCHAR(8) NOT NULL,
    customer_dni VARCHAR(8) NOT NULL,

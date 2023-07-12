@@ -1,7 +1,7 @@
 INSERT INTO cr_product (product_code, name, image_url, price, enabled)
 VALUES ('P01', 'Popcorn Pequeño', 'https://firebasestorage.googleapis.com/v0/b/appwallpaper-75b5c.appspot.com/o/product%2FPop_Corn_peque%C3%B1o.jpg?alt=media&token=a9de845d-8ac0-481b-b6f6-b0056344c22a', 7, 't');
 INSERT INTO cr_product (product_code, name, image_url, price, enabled)
-VALUES ('P02', 'https://firebasestorage.googleapis.com/v0/b/appwallpaper-75b5c.appspot.com/o/product%2Fpopcorn_mediano.jpg?alt=media&token=ca89a333-6285-435e-afab-94e2c14c5d5a', 10, 't');
+VALUES ('P02', 'Popcorn Mediano', 'https://firebasestorage.googleapis.com/v0/b/appwallpaper-75b5c.appspot.com/o/product%2Fpopcorn_mediano.jpg?alt=media&token=ca89a333-6285-435e-afab-94e2c14c5d5a', 10, 't');
 INSERT INTO cr_product (product_code, name, image_url, price, enabled)
 VALUES ('P03', 'Popcorn Grande', 'https://firebasestorage.googleapis.com/v0/b/appwallpaper-75b5c.appspot.com/o/product%2Fpopcorn_grande.jpg?alt=media&token=6149a834-00d4-4230-ad0f-f94329183a9a', 12.5, 't');
 INSERT INTO cr_product (product_code, name, image_url, price, enabled)
